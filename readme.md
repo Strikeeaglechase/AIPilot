@@ -20,7 +20,7 @@ After downloading all of the above, build the AIPProvider which can then be used
 --spawn-dist <number    Spawn distance between teams in meters
 --spawn-alt <number>    Spawn altitude in meters
 --no-map                Disable map loading
---max-time	<number>    Maximum simulation duration in seconds (sim time, not real time) (TODO)
+--max-time <number>    Maximum simulation duration in seconds (sim time, not real time) (TODO)
 ```
 
 All arguments are optional
