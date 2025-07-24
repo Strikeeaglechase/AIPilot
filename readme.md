@@ -13,14 +13,14 @@ Download the following:
 After downloading all of the above, build the AIPProvider which can then be used with the AIP Sim by running the `AIPilot.exe` file and providing the DLL path via one of the arguments:
 
 ```
---allied <path>			Path to an AIPProvider DLL for allied team aircraft
---enemy <path> 			Path to an AIPProvider DLL for enemy team aircraft
---debug-allied				Enable debugging for the allied team
---debug-enemy				Enable debugging for the enemy team
---spawn-dist <number>	Spawn distance between teams in meters
---spawn-alt <number>		Spawn altitude in meters
---no-map						Disable map loading
---max-time	<number>		Maximum simulation duration in seconds (sim time, not real time) (TODO)
+--allied <path>         Path to an AIPProvider DLL for allied team aircraft
+--enemy <path>          Path to an AIPProvider DLL for enemy team aircraft
+--debug-allied          Enable debugging for the allied team
+--debug-enemy           Enable debugging for the enemy team
+--spawn-dist <number    Spawn distance between teams in meters
+--spawn-alt <number>    Spawn altitude in meters
+--no-map                Disable map loading
+--max-time	<number>    Maximum simulation duration in seconds (sim time, not real time) (TODO)
 ```
 
 All arguments are optional
