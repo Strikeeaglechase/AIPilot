@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1cb7db047c7554fabe6bd0abc0d352, type: 3}
+  m_Name: WeaponStats
+  m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-54
+    rcs: 6.426766
+    mass: 0.45
+    drag: 0.0036036253
+  - prefab: {fileID: 8917532811999056233, guid: c0c51ac12e3eb1247b6596e92fc855fe, type: 3}
+    path: Weapons/Missiles/AIM-120
+    rcs: 2.9871655
+    mass: 0.152
+    drag: 0.001711764
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-120D
+    rcs: 1.8737452
+    mass: 0.152
+    drag: 0.0012517873
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-7
+    rcs: 3.4659991
+    mass: 0.152
+    drag: 0.0024220145
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-9+
+    rcs: 2.4963102
+    mass: 0.0853
+    drag: 0.0019996932
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-9
+    rcs: 2.4963102
+    mass: 0.0853
+    drag: 0.0019996932
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/AIM-9E
+    rcs: 2.4963102
+    mass: 0.0853
+    drag: 0.0019996932
+  - prefab: {fileID: 6580821834537331402, guid: 73d659fbb40910245822d6f3e5b91d88, type: 3}
+    path: Weapons/Missiles/AIRS-T
+    rcs: 3.2354915
+    mass: 0.088
+    drag: 0.0024967163
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/HARM
+    rcs: 4.0033174
+    mass: 0.355
+    drag: 0.006251625
+  - prefab: {fileID: 0}
+    path: Weapons/Missiles/SideARM
+    rcs: 2.4963102
+    mass: 0.09383
+    drag: 0.0019996932
