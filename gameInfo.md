@@ -6,12 +6,12 @@ The simulation utility is meant to be compatible/mimic [VTOL VR](https://store.s
 
 The sim currently has two weapons, the AIM-120 and the AIRS-T
 
--  AIM-120 is a medium range radar guided missile, initially after launch the missile will receive target updates from the radar to correct it's flight path. Once within a set distance it switches to it's onboard radar and independently tracks the target. STT or TWS can be used to guide the missile
--  AIRS-T is a heat-seeking missile, it guides on it's own to the strongest heat source in it's FOV. You must tell the seeker what direction to look prior to launch
+-  AIM-120 is a medium range radar guided missile, initially after launch the missile will receive target updates from the radar to correct its flight path. Once within a set distance it switches to it's onboard radar and independently tracks the target. STT or TWS can be used to guide the missile
+-  AIRS-T is a heat-seeking missile, it guides on it's own to the strongest heat source in its FOV. You must tell the seeker what direction to look prior to launch
 
 ### Hardpoints
 
-A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoint's do not actually exist (no RCS or drag), but are what you use to spawn weapons onto the aircraft.
+A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoints do not actually exist (no RCS or drag), but are what you use to spawn weapons onto the aircraft.
 
 > [!NOTE]
 > All hardpoint names are prefixed with "HPEquips/AFighter/", and all weapon names are prefixed with "Weapons/Missiles/", so when using the table below ensure you've added these prefixes.
