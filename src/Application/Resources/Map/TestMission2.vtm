@@ -1,0 +1,43 @@
+VTMapCustom
+{
+	mapID = Tepui
+	mapName = 
+	mapDescription = 
+	mapType = HeightMap
+	edgeMode = Hills
+	biome = Boreal
+	seed = seed
+	mapSize = 64
+	TerrainSettings
+	{
+	}
+	StaticPrefabs
+	{
+		StaticPrefab
+		{
+			prefab = airbase1
+			id = 20
+			globalPos = (155033.705078125, 396.86328125, 151931.7021484375)
+			rotation = (0, 58.52229, 0)
+			grid = (50,49)
+			tSpacePos = (-1433.705, 1403.702, 396.8632)
+			terrainToLocalMatrix = -0.5221669;-0.8528436;1.016669E-07;448.5046;0;-1.192093E-07;1;-396.8633;-0.8528436;0.5221668;-6.224713E-08;-1955.692;0;0;0;1;
+			baseName = 
+		}
+		StaticPrefab
+		{
+			prefab = airbase2
+			id = 19
+			globalPos = (34686.384765625, 349.17578125, 54781.955078125)
+			rotation = (0, 0, 0)
+			grid = (11,17)
+			tSpacePos = (-894.385, 2557.955, 349.1755)
+			terrainToLocalMatrix = -1;0;0;-894.3848;0;-1.192093E-07;1;-349.1758;0;1;-1.192093E-07;-2557.955;0;0;0;1;
+			baseName = 
+		}
+	}
+	BezierRoads
+	{
+	}
+}
+

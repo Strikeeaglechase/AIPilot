@@ -1,6 +1,5 @@
 bin
 .vs
-Map
 obj
 UnityTranspiler
 typeCache.json
