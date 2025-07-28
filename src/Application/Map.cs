@@ -56,7 +56,7 @@ namespace UnityGERunner.UnityApplication
 	            return;
 	        }
 	
-	        mapPath = "C:/Users/strik/Desktop/Programs/CSharp/UnityGERunner/src/Application" + "/Resources/Map/";
+	        mapPath = GameEngine.dataPath + "/Resources/Map/";
 	        Logger.Info("[HSGE] " + mapPath);
 	
 	        if (!LoadFromIndexed())

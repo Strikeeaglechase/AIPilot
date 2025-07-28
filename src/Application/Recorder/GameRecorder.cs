@@ -73,7 +73,7 @@ namespace Recorder
         public static void InitEntity(int entityId, string path, string name)
         {
             var initEvent = new EntityInit(entityId, path, name);
-
+            Logger.Info("[HSGE] " + $"Init Event: id={entityId} path={path} name={name}");
             Event(initEvent);
         }
 

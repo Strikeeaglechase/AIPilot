@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace UnityGERunner
         private bool hasQuit = false;
 
         public static readonly Event FixedUpdateEvent = new Event();
+
+        public static string dataPath = Path.Join(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../../src/Application");
 
         public GameEngine()
         {

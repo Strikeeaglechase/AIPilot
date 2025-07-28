@@ -47,7 +47,7 @@ namespace UnityGERunner.UnityApplication
 	        var results = new List<T>();
 	        foreach (var t in MonoBehaviour.objectTypes)
 	        {
-	            if (t.Key.IsSubclassOf(typeof(T)))
+	            if (t.Key.IsAssignableTo(typeof(T)))
 	            {
 	                foreach (var component in t.Value.OfType<T>()) results.Add(component);
 	            }
