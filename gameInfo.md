@@ -31,7 +31,7 @@ The final mode for the radar is Single Target Track (STT). This mode has the rad
 
 ## Radar Warning Receiver (RWR)
 
-The RWR allows you to gain information about radar's that are scanning you. The RWR will be able to detect radar scans even beyond where the radar is actually able to detect anything due to the requirement for the radar signal to perform a round trip, where as the RWR only has to detect a half-trip. Range can be estimated via the received signal strength, however the RWR has imprecision in both bearing and signal strength.
+The RWR allows you to gain information about radars that are scanning you. The RWR will be able to detect radar scans even beyond where the radar is actually able to detect anything due to the requirement for the radar signal to perform a round trip, where as the RWR only has to detect a half-trip. Range can be estimated via the received signal strength, however the RWR has imprecision in both bearing and signal strength.
 
 ## Visual
 
