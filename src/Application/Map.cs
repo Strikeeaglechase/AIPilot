@@ -21,8 +21,6 @@ namespace UnityGERunner.UnityApplication
 	    private string mapPath;
 	
 	    private List<Png> heightmapImages = new List<Png>();
-	    private string mapVtmName = "map.vtm";
-	    private string missionVtsName = "TestMission2.vts";
 	
 	
 	    public float[,] heightmap;
@@ -49,15 +47,18 @@ namespace UnityGERunner.UnityApplication
 	
 	    private Map()
 	    {
-	        var args = new CommandLineArguments();
-	        if (args.HasArg("--no-map"))
+	        if (Options.instance.noMap)
 	        {
 	            Logger.Info("[HSGE] " + $"No map flag, skipping map load");
 	            return;
 	        }
 	
 	        mapPath = GameEngine.dataPath + "/Resources/Map/";
-	        Logger.Info("[HSGE] " + mapPath);
+	        if (Options.instance.map != string.Empty)
+	        {
+	            mapPath = Options.instance.map;
+	        }
+	        Logger.Info("[HSGE] " + $"Map load path: {Path.GetFullPath(mapPath)}");
 	
 	        if (!LoadFromIndexed())
 	        {
@@ -74,7 +75,9 @@ namespace UnityGERunner.UnityApplication
 	        highestOfQuad = new float[height, width];
 	
 	        LoadVTMFile();
+	#if !HSGE
 	        LoadAirbases();
+	#endif
 	        ComputeTerrainHeights();
 	    }
 	
@@ -93,14 +96,33 @@ namespace UnityGERunner.UnityApplication
 	
 	    private void LoadVTMFile()
 	    {
-	        mapVtm = ParseVTFile(mapPath + mapVtmName);
-	        missionVts = ParseVTFile(mapPath + missionVtsName);
+	        var dirFiles = Directory.GetFiles(mapPath);
+	
+	        string[] vtmFileName = Directory.GetFiles(mapPath, "?*.vtm");
+	        string[] vtsFileName = Directory.GetFiles(mapPath, "?*.vts");
+	
+	        if (vtmFileName.Length == 0)
+	        {
+	            Logger.Error("[HSGE] " + $"No VTM file found within {mapPath}");
+	            return;
+	        }
+	
+	        if (vtsFileName.Length == 0)
+	        {
+	            Logger.Error("[HSGE] " + $"No VTS file found within {mapPath}");
+	            return;
+	        }
+	
+	
+	        mapVtm = ParseVTFile(vtmFileName[0]);
+	        missionVts = ParseVTFile(vtsFileName[0]);
 	
 	        Logger.Info("[HSGE] " + $"Loaded map and mission VT files!");
 	    }
 	
 	    private Node ParseVTFile(string path)
 	    {
+	        Logger.Info("[HSGE] " + $"Loading VT file: {path}");
 	        var file = TryLoadTextFile(path);
 	        if (file == null) throw new Exception($"Unable to load file {path} for ParseVTFile");
 	
@@ -116,14 +138,21 @@ namespace UnityGERunner.UnityApplication
 	
 	        foreach (var prefab in prefabs)
 	        {
+	            Logger.Info("[HSGE] " + $"PF: {prefab}");
 	            if (!airbasePrefabs.Contains(prefab.GetValue<string>("prefab"))) continue;
 	            var tMod = new AirbaseTerrainMod(prefab);
+	            Logger.Info("[HSGE] " + $"TMOD: {tMod}");
 	            terrainMods.Add(tMod);
 	
 	            GameObject airbaseMarker = new GameObject("Airbase");
+	            Logger.Info("[HSGE] " + $"Marker: {airbaseMarker}");
+	            Logger.Info("[HSGE] " + $"amtf: {airbaseMarker.transform}");
+	            Logger.Info("[HSGE] " + $"tmodpos: {tMod.position}");
 	            airbaseMarker.transform.position = tMod.position;
 	            airbaseMarker.transform.rotation = tMod.rotation;
-	
+	#if !HSGE
+	            airbaseMarker.AddComponent<AirbaseBounds>();
+	#endif
 	            airbases.Add(tMod.position);
 	        }
 	    }

@@ -43,7 +43,7 @@ namespace UnityGERunner.UnityApplication
 	    private List<AIClient> clients;
 	
 	    private int nextId = 1;
-	    private CommandLineArguments cli = null;
+	    //private CommandLineArguments cli = null;
 	
 	
 	    protected override void Awake()
@@ -57,12 +57,16 @@ namespace UnityGERunner.UnityApplication
 	
 	        instance = this;
 	
-	        cli = new CommandLineArguments();
-	        spawnDistance = cli.GetArg("--spawn-dist", spawnDistance);
-	        spawnAltitude = cli.GetArg("--spawn-alt", spawnAltitude);
+	        //cli = new CommandLineArguments();
+	        //spawnDistance = cli.GetArg("--spawn-dist", spawnDistance);
+	        //spawnAltitude = cli.GetArg("--spawn-alt", spawnAltitude);
+	        spawnDistance = Options.instance.spawnDist;
+	        spawnAltitude = Options.instance.spawnAlt;
 	
-	        teamAAIPilotImplementationPath = cli.GetArg("--allied", teamAAIPilotImplementationPath);
-	        teamBAIPilotImplementationPath = cli.GetArg("--enemy", teamBAIPilotImplementationPath);
+	        //teamAAIPilotImplementationPath = cli.GetArg("--allied", teamAAIPilotImplementationPath);
+	        //teamBAIPilotImplementationPath = cli.GetArg("--enemy", teamBAIPilotImplementationPath);
+	        teamAAIPilotImplementationPath = Options.instance.allied;
+	        teamBAIPilotImplementationPath = Options.instance.enemy;
 	
 	        clients = alliedClients.Concat(enemyClients).ToList();
 	
@@ -104,9 +108,10 @@ namespace UnityGERunner.UnityApplication
 	            }
 	            Logger.Info("[HSGE] " + $"Loading AIP for {client} on team {client.team} from {aipImplementationCtors[client.team]}");
 	
-	            var flag = "--debug-" + client.team.ToString();
-	            var debugEnabled = cli.HasArg(flag);
-	            Logger.Info("[HSGE] " + $"Checking for {flag} to enable debugging: {debugEnabled}");
+	            //var flag = "--debug-" + client.team.ToString();
+	            //var debugEnabled = cli.HasArg(flag);
+	            var debugEnabled = client.team == Team.Allied ? Options.instance.debugAllied : Options.instance.debugEnemy;
+	            //Logger.Info("[HSGE] " + $"Checking for {flag} to enable debugging: {debugEnabled}");
 	            client.ConfigureAIP(aipImplementationCtors[client.team], spawnDistance, spawnCenterPoint.position, debugEnabled);
 	        }
 	    }

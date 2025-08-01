@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AIPilot": {
+      "commandName": "Project",
+      "commandLineArgs": "--no-map"
+    }
+  }
+}

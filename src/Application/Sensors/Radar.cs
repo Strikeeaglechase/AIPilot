@@ -404,6 +404,7 @@ namespace UnityGERunner.UnityApplication
 	        target = Vector3.RotateTowards(referenceForwardTf.forward, target, maxElevationOffset * ((float)Math.PI / 180f), 0f);
 	        elevationTf.rotation = Quaternion.LookRotation(target, Vector3.up);
 	
+	        radarFov = Math.Max(Math.Min(radarFov, 120), 1);
 	        maxAzimuthOffset = (120 / 2) - (radarFov / 2);
 	        rotationRange = radarFov;
 	

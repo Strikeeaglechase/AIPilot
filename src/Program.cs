@@ -7,6 +7,7 @@ namespace UnityGERunner
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             GameEngine engine = new GameEngine();
 
             engine.Init();
@@ -27,12 +28,10 @@ namespace UnityGERunner
                 //if (Time.time > 100) break;
             }
 
-            var noAutoVtgr = Environment.GetCommandLineArgs().Any(a => a == "--no-auto-vtgr");
-            if (noAutoVtgr)
-            {
-                Logger.Warn($"Skipping VTGR proc start");
-                return;
-            }
+            var autoVtgr = Environment.GetCommandLineArgs().Any(a => a == "--auto-vtgr");
+            if (!autoVtgr) return;
+
+            Logger.Warn($"VTGR proc start");
 
             var startInfo = new ProcessStartInfo
             {

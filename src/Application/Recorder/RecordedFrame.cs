@@ -65,4 +65,10 @@ namespace Recorder
             //return memStream.ToArray();
         }
     }
+
+    struct WrappedState
+    {
+        public OutboundState state;
+        public int aiId;
+    }
 }

@@ -14,6 +14,7 @@ namespace UnityGERunner.UnityApplication
 	public abstract class IAIPProvider
 	{
 	    public bool outputEnabled = false;
+	    public string __aipName = "";
 	
 	    public abstract SetupActions Start(SetupInfo info);
 	    public abstract InboundState Update(OutboundState state);
@@ -22,12 +23,18 @@ namespace UnityGERunner.UnityApplication
 	    public void Graph(string key, Vector3 value) { if (outputEnabled) GameRecorder.Graph(key, value); }
 	    public void Graph(string key, NetVector value) { if (outputEnabled) GameRecorder.Graph(key, value); }
 	    public void Graph(string key, float value) { if (outputEnabled) GameRecorder.Graph(key, value); }
-	    public void Log(string message) { if (outputEnabled) GameRecorder.Log(message); }
+	    public void Log(string message) { if (outputEnabled) GameRecorder.Log(__aipName, message); }
 	    public void DebugShape(DebugLine line) { if (outputEnabled) GameRecorder.DebugShape(line); }
 	    public void DebugShape(DebugSphere sphere) { if (outputEnabled) GameRecorder.DebugShape(sphere); }
 	    public void RemoveDebugShape(int shapeId) { if (outputEnabled) GameRecorder.RemoveDebugShape(shapeId); }
 	    public float TestingValue(string name, float defaultValue, float minValue, float maxValue, float step = 0.1f) { return outputEnabled ? GameRecorder.TestingValue(name, defaultValue, minValue, maxValue, step) : defaultValue; }
-	
+	    public bool Linecast(NetVector a, NetVector b, out NetVector hitPoint)
+	    {
+	        var res = Map.instance.SimpleLineCast(a.vec3, b.vec3, out var hpv3);
+	        hitPoint = hpv3;
+	        return res;
+	    }
+	    public float HeightAt(NetVector pt) { return Map.instance.GetHeightAtSubpoint(pt); }
 	}
 	
 	public struct Kinematics
@@ -61,6 +68,9 @@ namespace UnityGERunner.UnityApplication
 	    RadarTWS,
 	    RadarDropTWS,
 	    RadarSetPDT,
+	    RadarElevation,
+	    RadarAzimuth,
+	    RadarFov,
 	    Flare,
 	    Chaff,
 	    ChaffFlare,
