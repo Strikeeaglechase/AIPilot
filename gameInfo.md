@@ -6,12 +6,12 @@ The simulation utility is meant to be compatible/mimic [VTOL VR](https://store.s
 
 The sim currently has two weapons, the AIM-120 and the AIRS-T
 
--  AIM-120 is a medium range radar guided missile, initially after launch the missile will receive target updates from the radar to correct it's flight path. Once within a set distance it switches to it's onboard radar and independently tracks the target. STT or TWS can be used to guide the missile
--  AIRS-T is a heat-seeking missile, it guides on it's own to the strongest heat source in it's FOV. You must tell the seeker what direction to look prior to launch
+-  AIM-120 is a medium range radar guided missile, initially after launch the missile will receive target updates from the radar to correct its flight path. Once within a set distance it switches to it's onboard radar and independently tracks the target. STT or TWS can be used to guide the missile
+-  AIRS-T is a heat-seeking missile, it guides on it's own to the strongest heat source in its FOV. You must tell the seeker what direction to look prior to launch
 
 ### Hardpoints
 
-A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoint's do not actually exist (no RCS or drag), but are what you use to spawn weapons onto the aircraft.
+A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoints do not actually exist (no RCS or drag), but are what you use to spawn weapons onto the aircraft.
 
 > [!NOTE]
 > All hardpoint names are prefixed with "HPEquips/AFighter/", and all weapon names are prefixed with "Weapons/Missiles/", so when using the table below ensure you've added these prefixes.
@@ -31,7 +31,7 @@ The final mode for the radar is Single Target Track (STT). This mode has the rad
 
 ## Radar Warning Receiver (RWR)
 
-The RWR allows you to gain information about radar's that are scanning you. The RWR will be able to detect radar scans even beyond where the radar is actually able to detect anything due to the requirement for the radar signal to perform a round trip, where as the RWR only has to detect a half-trip. Range can be estimated via the received signal strength, however the RWR has imprecision in both bearing and signal strength.
+The RWR allows you to gain information about radars that are scanning you. The RWR will be able to detect radar scans even beyond where the radar is actually able to detect anything due to the requirement for the radar signal to perform a round trip, where as the RWR only has to detect a half-trip. Range can be estimated via the received signal strength, however the RWR has imprecision in both bearing and signal strength.
 
 ## Visual
 
