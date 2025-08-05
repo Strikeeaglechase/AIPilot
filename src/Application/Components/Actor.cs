@@ -84,7 +84,7 @@ namespace UnityGERunner.UnityApplication
 	    {
 	        if (localMissile != null && !localMissile.fired) return;
 	
-	        if (aiClient != null) GameRecorder.Record(this, new NetVector(aiClient.kp.input));
+	        if (aiClient != null) GameRecorder.Record(this, new NetVector(aiClient.kp.input), aiClient.engine.throttle, aiClient.fuelTank.fuelFraction);
 	
 	        else GameRecorder.Record(this);
 	

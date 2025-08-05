@@ -18,11 +18,13 @@ namespace Recorder
         public float minValue;
         public float maxValue;
         public float step;
+        public bool used;
     }
 
     public class GameRecorder : MonoBehaviour
     {
         public static GameRecorder instance { get; private set; }
+        private const bool USE_JSON_RECORDING = false;
 
         public float maxSimTime = 60;
         public string outputPath = "./recording.json";
@@ -56,7 +58,7 @@ namespace Recorder
             instance.currentFrame.motion.Add(entityData);
         }
 
-        public static void Record(Actor actor, NetVector pyr)
+        public static void Record(Actor actor, NetVector pyr, float throttle, float fuel)
         {
             var entityData = new EntityKinematicData
             {
@@ -64,15 +66,17 @@ namespace Recorder
                 velocity = NetVector.From(actor.velocity),
                 rotation = NetVector.From(actor.transform.rotation.eulerAngles),
                 pyr = pyr,
+                throttle = throttle,
+                fuel = fuel,
                 entityId = actor.entityId,
             };
 
             instance.currentFrame.motion.Add(entityData);
         }
 
-        public static void InitEntity(int entityId, string path, string name)
+        public static void InitEntity(int entityId, string path, string name, Team team)
         {
-            var initEvent = new EntityInit(entityId, path, name);
+            var initEvent = new EntityInit(entityId, path, name, team);
             Logger.Info("[HSGE] " + $"Init Event: id={entityId} path={path} name={name}");
             Event(initEvent);
         }
@@ -87,16 +91,26 @@ namespace Recorder
             instance.currentFrame.events.Add(evt);
         }
 
-        private void CreateNewFrame()
+        private void WriteFrameToOutput()
         {
-            if (currentFrame != null && !hasClosedStreams)
+            if (currentFrame == null || hasClosedStreams) return;
+            if (USE_JSON_RECORDING)
             {
                 var frameStr = JsonConvert.SerializeObject(currentFrame) + "\n";
                 var bytes = UTF8Encoding.UTF8.GetBytes(frameStr);
                 writeStream.Write(bytes, 0, bytes.Length);
-                //var frameBytes = currentFrame.GetBytes();
-                //frameBytes.CopyTo(writeStream);
+                return;
             }
+
+            var frameBytes = currentFrame.GetBytes();
+            frameBytes.Position = 0;
+            //Logger.Info("[HSGE] " + $"Writing {frameBytes.Length} bytes for frame");
+            frameBytes.CopyTo(writeStream);
+        }
+
+        private void CreateNewFrame()
+        {
+            WriteFrameToOutput();
 
             currentFrame = new RecordedFrame(Time.time);
 
@@ -172,6 +186,7 @@ namespace Recorder
                 existing.minValue = minValue;
                 existing.maxValue = maxValue;
                 existing.step = step;
+                existing.used = true;
                 return existing.value;
             }
             else
@@ -183,6 +198,7 @@ namespace Recorder
                     minValue = minValue,
                     maxValue = maxValue,
                     step = step,
+                    used = true
                 };
 
                 instance.testingValues.Add(newTv);
@@ -228,15 +244,10 @@ namespace Recorder
 
             instance.DumpGraphs();
 
-            var testingValuesStr = JsonConvert.SerializeObject(instance.testingValues, Formatting.Indented);
+            var testingValuesStr = JsonConvert.SerializeObject(instance.testingValues.Where(tv => tv.used), Formatting.Indented);
             File.WriteAllText(instance.testingValuesOutputPath, testingValuesStr);
 
-            if (instance.currentFrame != null)
-            {
-                var frameStr = JsonConvert.SerializeObject(instance.currentFrame) + "\n";
-                var bytes = UTF8Encoding.UTF8.GetBytes(frameStr);
-                instance.writeStream.Write(bytes, 0, bytes.Length);
-            }
+            instance.WriteFrameToOutput();
 
             instance.hasClosedStreams = true;
             instance.writeStream.Close();
@@ -249,7 +260,7 @@ namespace Recorder
             //UnityEditor.EditorApplication.isPlaying = false;
             Time.timeScale = 0;
 #else
-        GameEngine.instance.Quit();
+            GameEngine.instance.Quit();
 #endif
         }
 
@@ -273,7 +284,8 @@ namespace Recorder
 
                 foreach (var tv in testingValues)
                 {
-                    Logger.Info("[HSGE] " + $"Loaded existing testing value: {tv.name}={tv.value} ({tv.minValue}-{tv.maxValue})");
+                    Logger.Info("[HSGE] " + $"Loaded existing testing value: {tv.name}={tv.value}");
+                    tv.used = false;
                 }
             }
         }

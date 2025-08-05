@@ -4,23 +4,23 @@ AIPilot (AIP) is a tool/game to enable the creation, testing, and deployment of 
 
 ## Getting Started
 
-Download the following:
-
-1. [AIP Sim](https://github.com/Strikeeaglechase/AIPilot/releases), this is what allows running local fights with AI against each other.
-2. [Headless Client](https://github.com/Strikeeaglechase/VTOLLiveViewerClient/releases/), which is used to visualize/replay a fight.
-3. [AIPProvider Example](https://github.com/Strikeeaglechase/AIPProvider), an example AIP implementation
-
-After downloading all of the above, build the AIPProvider which can then be used with the AIP Sim by running the `AIPilot.exe` file and providing the DLL path via one of the arguments:
+Download the latest build from releases, then open the `AIPProvider.sln` project. Every time you build the solution `onBuild.bat` will run which will automatically produce a vtgr replay file in the `sim` directory. You can manually run this script as well. Below is a list of CLI arguments you can pass to the simulation (AIPilot.exe), you can either manually run this or update the `onBuild.bat` file to include them.
 
 ```
---allied <path>         Path to an AIPProvider DLL for allied team aircraft
---enemy <path>          Path to an AIPProvider DLL for enemy team aircraft
---debug-allied          Enable debugging for the allied team
---debug-enemy           Enable debugging for the enemy team
---spawn-dist <number    Spawn distance between teams in meters
---spawn-alt <number>    Spawn altitude in meters
---no-map                Disable map loading
---max-time <number>    Maximum simulation duration in seconds (sim time, not real time) (TODO)
+--allied          (Default: ) Path to an AIPProvider DLL for allied team aircraft
+--enemy           (Default: ) Path to an AIPProvider DLL for enemy team aircraft
+--debug-allied    (Default: false) Enable debugging for the allied team
+--debug-enemy     (Default: false) Enable debugging for the enemy team
+--allied-count    (Default: 1) Sets number of allied aircraft to spawn
+--enemy-count     (Default: 1) Sets number of enemy aircraft to spawn
+--spawn-dist      (Default: 72000) Spawn distance between teams in meters
+--spawn-alt       (Default: 6000) Spawn altitude in meters
+--max-time        (Default: 300) Maximum simulation duration in seconds (sim time, not real time)
+--no-map          (Default: false) Disable map loading
+--map             (Default: ) Path to a directory containing the map to load
+--weapon-maxes    Sets limits to how many of each weapon type can be spawned. Format: "WEAPON_NAME:COUNT,WEAPON_NAME:COUNT"
+--help            Display this help screen.
+--version         Display version information.
 ```
 
 All arguments are optional

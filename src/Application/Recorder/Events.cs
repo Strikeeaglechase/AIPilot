@@ -39,19 +39,22 @@ namespace Recorder
         public int entityId;
         public string path;
         public string name;
+        public Team team;
 
-        public EntityInit(int entityId, string path, string name)
+        public EntityInit(int entityId, string path, string name, Team team)
         {
             type = RecorderEventType.EntityInit;
             this.entityId = entityId;
             this.path = path;
             this.name = name;
+            this.team = team;
         }
 
         public override void WriteBytes(MemoryStream stream)
         {
             base.WriteBytes(stream);
             stream.Write(BitConverter.GetBytes(entityId));
+            stream.WriteByte((byte)team);
 
             stream.WriteByte((byte)path.Length);
             stream.Write(UTF8Encoding.UTF8.GetBytes(path));

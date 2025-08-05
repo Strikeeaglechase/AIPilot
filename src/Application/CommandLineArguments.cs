@@ -11,56 +11,10 @@ using System.Threading.Tasks;
 namespace UnityGERunner.UnityApplication
 {
 	
-	
-	/*public class CommandLineArguments
-	{
-	    private string[] args;
-	
-	    public CommandLineArguments()
-	    {
-	        args = Environment.GetCommandLineArgs().Select(a => a.ToLower()).ToArray();
-	    }
-	
-	    public float GetArg(string name, float defaultValue = 0)
-	    {
-	        var sArg = GetArgWithParam(name);
-	        if (sArg == null) return defaultValue;
-	        return float.Parse(sArg);
-	    }
-	
-	    public bool GetArg(string name, bool defaultValue = false)
-	    {
-	        var sArg = GetArgWithParam(name);
-	        if (sArg == null) return defaultValue;
-	        return bool.Parse(sArg);
-	    }
-	
-	    public string GetArg(string name, string defaultValue = "")
-	    {
-	        var sArg = GetArgWithParam(name);
-	        if (sArg == null) return defaultValue;
-	        return sArg;
-	    }
-	
-	    private string GetArgWithParam(string arg)
-	    {
-	        var idx = Array.IndexOf(args, arg.ToLower());
-	
-	        if (idx == -1) return null;
-	        if (idx + 1 >= args.Length) return null;
-	
-	        return args[idx + 1];
-	    }
-	
-	    public bool HasArg(string arg)
-	    {
-	        return Array.IndexOf(args, arg.ToLower()) != -1;
-	    }
-	}*/
-	
 	public class Options
 	{
 	    private static Options _instance;
+	
 	    public static Options instance
 	    {
 	        get
@@ -70,6 +24,10 @@ namespace UnityGERunner.UnityApplication
 	            var res = Parser.Default.ParseArguments<Options>(Environment.GetCommandLineArgs());
 	            var realErrors = res.Errors.Where(e => e.Tag != ErrorType.UnknownOptionError);
 	
+	            if (Environment.GetCommandLineArgs().Contains("--help"))
+	            {
+	                Environment.Exit(0);
+	            }
 	
 	            if (realErrors.Count() == 0)
 	            {
@@ -128,5 +86,25 @@ namespace UnityGERunner.UnityApplication
 	    public bool noMap { get; set; } = false;
 	    [Option("map", HelpText = "Path to a directory containing the map to load", Default = "")]
 	    public string map { get; set; } = "";
+	    [Option("weapon-maxes", HelpText = "Sets limits to how many of each weapon type can be spawned. Format: \"WEAPON_NAME:COUNT,WEAPON_NAME:COUNT\"")]
+	    public string weaponMaxes { get; set; } = "";
+	
+	    public Dictionary<string, int> WeaponCountLimits
+	    {
+	        get
+	        {
+	            Dictionary<string, int> weaponMaxes = new Dictionary<string, int>();
+	            var wepOpts = Options.instance.weaponMaxes.Split(",");
+	            foreach (var opt in wepOpts)
+	            {
+	                string[] parts = opt.Split(":");
+	                if (parts.Count() != 2) continue;
+	
+	                weaponMaxes[parts[0]] = int.Parse(parts[1]);
+	            }
+	
+	            return weaponMaxes;
+	        }
+	    }
 	}
 }

@@ -18,7 +18,8 @@ namespace UnityGERunner.UnityApplication
 	    public const float metersPerPixel = 153.6f;
 	
 	    private static Map _instance;
-	    private string mapPath;
+	    public string mapPath = "";
+	    public string mapId = "invalid";
 	
 	    private List<Png> heightmapImages = new List<Png>();
 	
@@ -33,6 +34,9 @@ namespace UnityGERunner.UnityApplication
 	
 	    public Node mapVtm;
 	    public Node missionVts;
+	
+	    public int __iid = 0;
+	
 	
 	    private List<AirbaseTerrainMod> terrainMods = new List<AirbaseTerrainMod>();
 	
@@ -60,6 +64,8 @@ namespace UnityGERunner.UnityApplication
 	        }
 	        Logger.Info("[HSGE] " + $"Map load path: {Path.GetFullPath(mapPath)}");
 	
+	        __iid = new System.Random().Next(100000);
+	
 	        if (!LoadFromIndexed())
 	        {
 	            var singleHeightFile = TryLoadImage(mapPath + "height.png");
@@ -76,7 +82,7 @@ namespace UnityGERunner.UnityApplication
 	
 	        LoadVTMFile();
 	#if !HSGE
-	        LoadAirbases();
+	        //LoadAirbases();
 	#endif
 	        ComputeTerrainHeights();
 	    }
@@ -117,6 +123,8 @@ namespace UnityGERunner.UnityApplication
 	        mapVtm = ParseVTFile(vtmFileName[0]);
 	        missionVts = ParseVTFile(vtsFileName[0]);
 	
+	        mapId = mapVtm.GetValue<string>("mapID");
+	
 	        Logger.Info("[HSGE] " + $"Loaded map and mission VT files!");
 	    }
 	
@@ -138,16 +146,11 @@ namespace UnityGERunner.UnityApplication
 	
 	        foreach (var prefab in prefabs)
 	        {
-	            Logger.Info("[HSGE] " + $"PF: {prefab}");
 	            if (!airbasePrefabs.Contains(prefab.GetValue<string>("prefab"))) continue;
 	            var tMod = new AirbaseTerrainMod(prefab);
-	            Logger.Info("[HSGE] " + $"TMOD: {tMod}");
 	            terrainMods.Add(tMod);
 	
 	            GameObject airbaseMarker = new GameObject("Airbase");
-	            Logger.Info("[HSGE] " + $"Marker: {airbaseMarker}");
-	            Logger.Info("[HSGE] " + $"amtf: {airbaseMarker.transform}");
-	            Logger.Info("[HSGE] " + $"tmodpos: {tMod.position}");
 	            airbaseMarker.transform.position = tMod.position;
 	            airbaseMarker.transform.rotation = tMod.rotation;
 	#if !HSGE
@@ -179,7 +182,7 @@ namespace UnityGERunner.UnityApplication
 	        {
 	            for (int y = 0; y < height; y++)
 	            {
-	                for (int x = 0; x < width; x++) heightmap[y, x] += image.GetPixel(x, y).R;
+	                for (int x = 0; x < width; x++) heightmap[y, x] += image.GetPixel(x, (height - 1) - y).R;
 	            }
 	        }
 	
@@ -191,7 +194,7 @@ namespace UnityGERunner.UnityApplication
 	            for (int x = 0; x < width; x++)
 	            {
 	                float height = heightmap[y, x];
-	                heightmap[y, x] = ((maxHeight + minHeight) / (heightmapImages.Count * 255)) * height - minHeight;
+	                heightmap[y, x] = ((maxHeight + minHeight) / (float)(heightmapImages.Count * 255)) * height - minHeight;
 	            }
 	        }
 	

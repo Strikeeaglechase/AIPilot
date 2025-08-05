@@ -18,6 +18,8 @@ namespace Recorder
         public NetVector velocity;
         public NetVector rotation;
         public NetVector pyr;
+        public float throttle;
+        public float fuel;
         public int entityId;
 
         public void WriteBytes(MemoryStream stream)
@@ -26,6 +28,8 @@ namespace Recorder
             velocity.WriteBytes(stream);
             rotation.WriteBytes(stream);
             pyr.WriteBytes(stream);
+            stream.Write(BitConverter.GetBytes(throttle));
+            stream.Write(BitConverter.GetBytes(fuel));
             stream.Write(BitConverter.GetBytes(entityId));
         }
     }

@@ -31,15 +31,22 @@ namespace UnityGERunner.UnityApplication
 	    public SOCurve speedCurve;
 	    public SOCurve atmosCurve;
 	
+	    public float resultThrust = 0;
+	
 	    
 	    public float thrustHeatMult = 25f;
 	    public float abHeatAdd = 1f;
 	    public HeatEmitter heatEmitter;
 	
+	    
+	    public FuelTank fuelTank;
+	    public float fuelDrain;
+	    public float abDrainMult;
+	
+	
 	    // private Rigidbody rb;
 	    private KinematicPlane kp;
 	
-	    public float resultThrust = 0;
 	
 	    protected override void Start()
 	    {
@@ -54,6 +61,10 @@ namespace UnityGERunner.UnityApplication
 	        throttle = Mathf.Clamp01(throttle);
 	        bool afterburner = throttle > autoAbThreshold;
 	        float abMult = afterburner ? 1.0f : 0.0f;
+	
+	        float finalAbDrainMult = 1 + abMult * (abDrainMult - 1);
+	        fuelTank.DrawFuel(finalAbDrainMult * fuelDrain * throttle * Time.fixedDeltaTime);
+	
 	        resultThrust = (1 + abMult * (abThrustMult - 1)) * throttle * maxThrust;
 	        resultThrust *= speedCurve.Evaluate(actor.velocity.magnitude);
 	        resultThrust *= atmosCurve.Evaluate(AerodynamicsController.fetch.AtmosPressureAtPosition(transform.position));

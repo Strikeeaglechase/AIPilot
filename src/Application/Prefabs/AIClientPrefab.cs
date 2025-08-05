@@ -26,7 +26,8 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			var behaviour7870003077685781942 = new Actor();
 			var behaviour4892452918045270120 = new KinematicPlane();
 			var behaviour2881661582516595245 = new ModuleEngine();
-			var behaviour8247150181253343053 = new SimpleDrag();
+			var behaviour4951117924955119384 = new SimpleDrag();
+			var behaviour4778999080055250872 = new FuelTank();
 			var behaviour7216977451890674701 = new VisualSensor();
 			var behaviour1295623533689872749 = new MassUpdater();
 			var rigidBody1302538070612963282 = new Rigidbody();
@@ -118,7 +119,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			// Setup for GameObject 1298932314699798860
 			gameObject1298932314699798860.SetActive(true);
 			gameObject1298932314699798860.sourcePrefab = new AIClientPrefab();
-			gameObject1298932314699798860.AddComponents(transform7867794619607844773, behaviour5527500078195339178, behaviour7870003077685781942, behaviour4892452918045270120, behaviour2881661582516595245, behaviour8247150181253343053, behaviour7216977451890674701, behaviour1295623533689872749, rigidBody1302538070612963282, behaviour1992800865061777412, behaviour1756186139330704731, behaviour1695996403598227547, behaviour3008035590580529071, behaviour7782491234487686768, behaviour530053364128008802, behaviour5915429790337292566, behaviour3333124485101339158, behaviour1303385942055963986);
+			gameObject1298932314699798860.AddComponents(transform7867794619607844773, behaviour5527500078195339178, behaviour7870003077685781942, behaviour4892452918045270120, behaviour2881661582516595245, behaviour4951117924955119384, behaviour4778999080055250872, behaviour7216977451890674701, behaviour1295623533689872749, rigidBody1302538070612963282, behaviour1992800865061777412, behaviour1756186139330704731, behaviour1695996403598227547, behaviour3008035590580529071, behaviour7782491234487686768, behaviour530053364128008802, behaviour5915429790337292566, behaviour3333124485101339158, behaviour1303385942055963986);
 			
 			
 			// Setup for Transform 7867794619607844773
@@ -141,8 +142,10 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour5527500078195339178.visualTargetFinder = behaviour7216977451890674701;
 			behaviour5527500078195339178.kp = behaviour4892452918045270120;
 			behaviour5527500078195339178.engine = behaviour2881661582516595245;
+			behaviour5527500078195339178.fuelTank = behaviour4778999080055250872;
 			behaviour5527500078195339178.irCountermeasure = behaviour7782491234487686768;
 			behaviour5527500078195339178.chaffCountermeasure = behaviour530053364128008802;
+			behaviour5527500078195339178.datalink = null;
 			behaviour5527500078195339178.enabled = true;
 			
 			
@@ -183,17 +186,29 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour2881661582516595245.autoAbThreshold = 0.75f;
 			behaviour2881661582516595245.speedCurve = TurbofanVelocityCurveSO.instance;
 			behaviour2881661582516595245.atmosCurve = TurbofanAtmosCurveSO.instance;
+			behaviour2881661582516595245.resultThrust = 0f;
 			behaviour2881661582516595245.thrustHeatMult = 25f;
 			behaviour2881661582516595245.abHeatAdd = 1f;
 			behaviour2881661582516595245.heatEmitter = behaviour1303385942055963986;
-			behaviour2881661582516595245.resultThrust = 0f;
+			behaviour2881661582516595245.fuelTank = behaviour4778999080055250872;
+			behaviour2881661582516595245.fuelDrain = 3f;
+			behaviour2881661582516595245.abDrainMult = 3f;
 			behaviour2881661582516595245.enabled = true;
 			
 			
-			// Setup for MonoBehaviour 8247150181253343053
-			behaviour8247150181253343053.area = 0f;
-			behaviour8247150181253343053.rb = null;
-			behaviour8247150181253343053.enabled = true;
+			// Setup for MonoBehaviour 4951117924955119384
+			behaviour4951117924955119384.area = 0f;
+			behaviour4951117924955119384.rb = rigidBody1302538070612963282;
+			behaviour4951117924955119384.kp = behaviour4892452918045270120;
+			behaviour4951117924955119384.enabled = true;
+			
+			
+			// Setup for MonoBehaviour 4778999080055250872
+			behaviour4778999080055250872.maxFuel = 7100f;
+			behaviour4778999080055250872.currentFuel = 7100f;
+			behaviour4778999080055250872.fuelDensity = 0.00084f;
+			behaviour4778999080055250872.aiClient = behaviour5527500078195339178;
+			behaviour4778999080055250872.enabled = true;
 			
 			
 			// Setup for MonoBehaviour 7216977451890674701
@@ -213,7 +228,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			rigidBody1302538070612963282.mass = 1f;
 			rigidBody1302538070612963282.drag = 0f;
 			rigidBody1302538070612963282.angularDrag = 0.05f;
-			rigidBody1302538070612963282.centerOfMass = new Vector3(0f, 0.02978526f, -3.4902344f);
+			rigidBody1302538070612963282.centerOfMass = new Vector3(0f, 0.029785156f, -3.4902344f);
 			rigidBody1302538070612963282.inertiaTensor = new Vector3(1f, 1f, 1f);
 			rigidBody1302538070612963282.useGravity = true;
 			rigidBody1302538070612963282.isKinematic = true;
@@ -246,7 +261,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour1695996403598227547.weapons = new();
 			behaviour1695996403598227547.weaponStats = WeaponStatsSO.instance;
 			behaviour1695996403598227547.radar = behaviour3424778467738142397;
-			behaviour1695996403598227547.equipDrag = behaviour8247150181253343053;
+			behaviour1695996403598227547.equipDrag = behaviour4951117924955119384;
 			behaviour1695996403598227547.selectedWeapon = 0;
 			behaviour1695996403598227547.tryFire = false;
 			behaviour1695996403598227547.enabled = true;
@@ -468,7 +483,8 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			gameObject1298932314699798860.componentFileIdMap[7870003077685781942] = behaviour7870003077685781942;
 			gameObject1298932314699798860.componentFileIdMap[4892452918045270120] = behaviour4892452918045270120;
 			gameObject1298932314699798860.componentFileIdMap[2881661582516595245] = behaviour2881661582516595245;
-			gameObject1298932314699798860.componentFileIdMap[8247150181253343053] = behaviour8247150181253343053;
+			gameObject1298932314699798860.componentFileIdMap[4951117924955119384] = behaviour4951117924955119384;
+			gameObject1298932314699798860.componentFileIdMap[4778999080055250872] = behaviour4778999080055250872;
 			gameObject1298932314699798860.componentFileIdMap[7216977451890674701] = behaviour7216977451890674701;
 			gameObject1298932314699798860.componentFileIdMap[1295623533689872749] = behaviour1295623533689872749;
 			gameObject1298932314699798860.componentFileIdMap[1302538070612963282] = rigidBody1302538070612963282;

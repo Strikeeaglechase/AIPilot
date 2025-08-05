@@ -15,6 +15,7 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public VisualTargetType type;
 	    public NetVector direction;
+	    public float closure;
 	    public int id;
 	    public Team team;
 	}
@@ -50,22 +51,23 @@ namespace UnityGERunner.UnityApplication
 	        return spottedTargets.ToArray();
 	    }
 	
+	    public void ReportDL(DatalinkController dl, int id)
+	    {
+	        foreach (var contact in spottedTargets) dl.Report(contact, id);
+	    }
+	
 	    private void DetectTarget(Actor actor)
 	    {
-	        //var localPos = transform.InverseTransformPoint(actor.transform.position);
-	        //var localDir = (transform.position - localPos).normalized;
-	
 	        var relPos = (actor.transform.position - transform.position).normalized;
-	
-	        //Debug.DrawLine(transform.position, transform.position + globalLineDir * 50_000, Color.yellow);
-	        //var theta = Mathf.Atan2(localDir.z, localDir.x);
-	        //var phi = Mathf.Asin(localDir.y);
+	        var relVel = (actor.velocity - ourActor.velocity);
+	        float closureRate = -Vector3.Dot(relVel, relPos);
 	
 	        var target = new VisuallySpottedTarget
 	        {
 	            id = actor.entityId,
 	            type = actor.isMissile ? VisualTargetType.Missile : VisualTargetType.Aircraft,
 	            direction = NetVector.From(relPos),
+	            closure = closureRate,
 	            team = actor.team,
 	        };
 	        spottedTargets.Add(target);

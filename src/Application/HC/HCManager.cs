@@ -15,6 +15,7 @@ namespace UnityGERunner.UnityApplication
 	    public int entityId;
 	    public string path;
 	    public ulong ownerId;
+	    public Team team;
 	
 	    public HCManager manager;
 	}

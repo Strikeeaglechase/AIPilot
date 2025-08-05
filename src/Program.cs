@@ -5,14 +5,33 @@ namespace UnityGERunner
 {
     internal class Program
     {
+        private static void Test()
+        {
+            var speed1 = 100;
+            var speed2 = 50;
+            var radarPos = new Vector3(0, 0, 0);
+            var targetPos = new Vector3(0, 0, 100);
+            var norm = (targetPos - radarPos).normalized;
+            for (int i = 0; i < 360; i += 1)
+            {
+                var vel1 = new Vector3(Mathf.Cos((i + 90) * Mathf.Deg2Rad), 0, Mathf.Sin((i + 90) * Mathf.Deg2Rad)).normalized * speed1;
+                var vel2 = new Vector3(Mathf.Cos((i + 90) * Mathf.Deg2Rad), 0, Mathf.Sin((i + 90) * Mathf.Deg2Rad)).normalized * speed2;
+
+                var notch1 = Mathf.Abs(Vector3.Dot(Vector3.ClampMagnitude(vel1 / 100f, 1.5f), norm));
+                notch1 = Mathf.Clamp(notch1, 0.0125f, 1.5f);
+
+                var notch2 = Mathf.Abs(Vector3.Dot(Vector3.ClampMagnitude(vel2 / 100f, 1.5f), norm));
+                notch2 = Mathf.Clamp(notch2, 0.0125f, 1.5f);
+
+                Console.WriteLine($"{i},{notch1},{notch2}");
+            }
+        }
+
         static void Main(string[] args)
         {
-            Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             GameEngine engine = new GameEngine();
 
             engine.Init();
-
-
 
             int t = 0;
 

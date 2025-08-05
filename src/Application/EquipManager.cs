@@ -58,6 +58,17 @@ namespace UnityGERunner.UnityApplication
 	        Logger.Info("[HSGE] " + $"Equip spawned: {equipPath} ({entityId}) on hp {hpIndex}");
 	    }
 	
+	    private bool CheckWeaponMaxesForSpawn(string weaponPath)
+	    {
+	        var weaponMaxes = Options.instance.WeaponCountLimits;
+	        if (!weaponMaxes.ContainsKey(weaponPath)) return true;
+	
+	        var currentWeaponCount = weapons.Where(w => w.weaponPath == weaponPath).Count();
+	        if (currentWeaponCount >= weaponMaxes[weaponPath]) return false;
+	
+	        return true;
+	    }
+	
 	    public void HandleWeaponSpawned(string weaponPath, int weaponEntityId, int hpEntityId, int railIndex)
 	    {
 	        Logger.Info("[HSGE] " + $"Weapon {weaponPath} spawned with id {weaponEntityId}, spawned onto {hpEntityId} rail idx {railIndex}");
@@ -68,7 +79,14 @@ namespace UnityGERunner.UnityApplication
 	            return;
 	        }
 	
-	        //Logger.Info("[HSGE] " + $"Weapon info: {info}, prefab: {wea}");
+	        var underWepLimits = CheckWeaponMaxesForSpawn(weaponPath);
+	        if (!underWepLimits)
+	        {
+	            Logger.Warn("[HSGE] " + $"Cannot spawn {weaponPath} as already at the max weapon count for this type of missile");
+	            return;
+	        }
+	
+	        Logger.Info("[HSGE] " + $"Weapon path from info: {info.path}, prefab: {info.prefab}");
 	
 	        var missileGo = Instantiate(info.prefab);
 	        missileGo.transform.SetParent(transform);

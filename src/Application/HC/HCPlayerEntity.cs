@@ -23,7 +23,7 @@ namespace UnityGERunner.UnityApplication
 	
 	    protected override void Start()
 	    {
-	        GameRecorder.InitEntity(entityId, path, "HCPlayerEntity");
+	        GameRecorder.InitEntity(entityId, path, "HCPlayerEntity", team);
 	    }
 	
 	    protected override void FixedUpdate()

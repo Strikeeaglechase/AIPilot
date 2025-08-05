@@ -10,6 +10,7 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public float area;
 	    public Rigidbody rb;
+	    public KinematicPlane kp;
 	
 	    private float CalculateDragForceMagnitude(float spd)
 	    {
@@ -20,22 +21,17 @@ namespace UnityGERunner.UnityApplication
 	    protected override void FixedUpdate()
 	    {
 	        if (!rb) return;
+	        if (area <= 0f) return;
 	
-	        if (area > 0f)
-	        {
-	            Vector3 com = rb.worldCenterOfMass;
-	            Vector3 airflow = rb.GetPointVelocity(com);
-	            float dragForce = CalculateDragForceMagnitude(airflow.magnitude);
-	            //Logger.Info("[HSGE] " + $"DF: {(-airflow * dragForce).magnitude:f2}");
-	            if (!rb.isKinematic)
-	            {
-	                Vector3 force = -airflow * dragForce;
-	                if (!float.IsNaN(force.x))
-	                {
-	                    rb.AddForceAtPosition(force, com);
-	                }
-	            }
-	        }
+	        Vector3 com = rb.worldCenterOfMass;
+	        Vector3 airflow = rb.GetPointVelocity(com);
+	        float dragForce = CalculateDragForceMagnitude(airflow.magnitude);
+	        Vector3 force = -airflow * dragForce;
+	
+	        if (float.IsNaN(force.x)) return;
+	
+	        if (!rb.isKinematic) rb.AddForceAtPosition(force, com);
+	        if (kp != null) kp.AddForce(force);
 	    }
 	}
 	

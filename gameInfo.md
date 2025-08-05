@@ -16,10 +16,14 @@ A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoints do no
 > [!NOTE]
 > All hardpoint names are prefixed with "HPEquips/AFighter/", and all weapon names are prefixed with "Weapons/Missiles/", so when using the table below ensure you've added these prefixes.
 
-| Hardpoint      | Weapon  | Allowed Slots | Weapon Count |
-| -------------- | ------- | ------------- | ------------ |
-| af_amraamRail  | AIM-120 | 1,2,3,4       | 1            |
-| fa26_iris-t-x1 | AIRS-T  | 2,6           | 1            |
+| Hardpoint       | Weapon  | Allowed Slots             | Weapon Count |
+| --------------- | ------- | ------------------------- | ------------ |
+| af_amraam       | AIM-120 | 4, 5, 6, 7                | 1            |
+| af_amraamRail   | AIM-120 | 1, 2, 3, 8, 9, 10, 11, 12 | 1            |
+| af_amraamRailx2 | AIM-120 | 1, 10, 11, 12             | 2            |
+| fa26_iris-t-x1  | AIRS-T  | 1, 2, 3, 8, 9, 10, 11, 12 | 1            |
+| fa26_iris-t-x2  | AIRS-T  | 1, 10                     | 2            |
+| fa26_iris-t-x3  | AIRS-T  | 1, 10                     | 3            |
 
 ## Radar
 

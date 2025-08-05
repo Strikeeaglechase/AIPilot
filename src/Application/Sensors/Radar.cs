@@ -112,6 +112,8 @@ namespace UnityGERunner.UnityApplication
 	    public float elevationAdjust;
 	    public float azimuthAdjust;
 	    public float fov;
+	    public bool powered;
+	    public int pdt;
 	
 	    public StateTargetData[] twsedTargets;
 	    public MinimalDetectedTargetData[] detectedTargets;
@@ -634,6 +636,12 @@ namespace UnityGERunner.UnityApplication
 	        }
 	    }
 	
+	    public void ReportDL(DatalinkController dl, int id)
+	    {
+	        foreach (var tws in twsedTargets) dl.Report(StateTargetData.FromTargetData(GetTargetData(tws)), id);
+	        if (hasSttTarget) dl.Report(StateTargetData.FromTargetData(lockData), id);
+	    }
+	
 	    public RadarState GetState()
 	    {
 	        RadarState state = new RadarState
@@ -642,6 +650,8 @@ namespace UnityGERunner.UnityApplication
 	            azimuthAdjust = currentAzimuthAdjust,
 	            elevationAdjust = currentElevationAdjust,
 	            fov = radarFov,
+	            powered = enabled,
+	            pdt = pdtTwsIdx,
 	
 	            sttedTarget = hasSttTarget ? StateTargetData.FromTargetData(lockData) : null,
 	            twsedTargets = twsedTargets.Select(actor => StateTargetData.FromTargetData(GetTargetData(actor))).ToArray(),

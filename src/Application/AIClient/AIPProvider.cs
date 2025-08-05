@@ -42,7 +42,6 @@ namespace UnityGERunner.UnityApplication
 	    public NetVector position;
 	    public NetQuaternion rotation;
 	    public NetVector velocity;
-	    public NetVector angularVelocity;
 	}
 	
 	public struct OutboundState
@@ -52,11 +51,15 @@ namespace UnityGERunner.UnityApplication
 	    public StateRWRContact[] rwrContacts;
 	    public VisuallySpottedTarget[] visualTargets;
 	    public IRWeaponState ir;
+	    public DatalinkState datalink;
+	
 	    public string[] weapons;
+	    public int selectedWeapon;
 	
 	    public int flareCount;
 	    public int chaffCount;
 	
+	    public float fuel;
 	    public float time;
 	}
 	
@@ -93,6 +96,7 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public string[] hardpoints;
 	    public string name;
+	    public float fuel;
 	}
 	
 	public struct SetupInfo
@@ -101,5 +105,10 @@ namespace UnityGERunner.UnityApplication
 	    public int id;
 	    public float spawnDist;
 	    public NetVector mapCenterPoint;
+	    public string mapId;
+	    public string mapPath;
+	    public int alliedSpawns;
+	    public int enemySpawns;
+	    public Dictionary<string, int> weaponRestrictions;
 	}
 }

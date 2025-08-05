@@ -2,6 +2,7 @@ using UnityGERunner;
 using Coroutine;
 using Recorder;
 using System;
+using System.IO;
 using System.Linq;
 
 
@@ -38,10 +39,14 @@ namespace UnityGERunner.UnityApplication
 	    public VisualSensor visualTargetFinder;
 	    public KinematicPlane kp;
 	    public ModuleEngine engine;
+	    public FuelTank fuelTank;
 	
 	    
 	    public IRCountermeasure irCountermeasure;
 	    public ChaffCountermeasure chaffCountermeasure;
+	
+	    
+	    public DatalinkController datalink;
 	
 	    private IAIPProvider aipProvider;
 	
@@ -49,10 +54,10 @@ namespace UnityGERunner.UnityApplication
 	    {
 	        radar.radarActorId = actorId;
 	
-	        GameRecorder.InitEntity(entityId, "Vehicles/FA-26B", gameObject.name);
+	        GameRecorder.InitEntity(entityId, "Vehicles/FA-26B", gameObject.name, team);
 	    }
 	
-	    public void ConfigureAIP(Type ctor, float spawnDist, Vector3 centerPoint, bool enableDebug)
+	    public void ConfigureAIP(Type ctor, float spawnDist, Vector3 centerPoint, bool enableDebug, int alliedSpawns, int enemySpawns)
 	    {
 	        aipProvider = (IAIPProvider)Activator.CreateInstance(ctor);
 	
@@ -62,16 +67,31 @@ namespace UnityGERunner.UnityApplication
 	            id = entityId,
 	            team = team,
 	            spawnDist = spawnDist,
-	            mapCenterPoint = new NetVector(centerPoint)
+	            mapCenterPoint = new NetVector(centerPoint),
+	            mapPath = Map.instance.mapPath != string.Empty ? Path.GetFullPath(Map.instance.mapPath) : "",
+	            mapId = Map.instance.mapId,
+	            alliedSpawns = alliedSpawns,
+	            enemySpawns = enemySpawns,
+	            weaponRestrictions = Options.instance.WeaponCountLimits
 	        };
 	
 	        var startActions = aipProvider.Start(setupInfo);
 	        gameObject.name = startActions.name;
+	        aipProvider.__aipName = startActions.name;
 	
 	        equipManager.equips = startActions.hardpoints.ToList();
+	
+	        if (startActions.fuel > 0) fuelTank.SetFuel(startActions.fuel);
 	    }
 	
-	    protected override void FixedUpdate()
+	    public void ReportAllDlInfo()
+	    {
+	        radar.ReportDL(datalink, entityId);
+	        visualTargetFinder.ReportDL(datalink, entityId);
+	        datalink.ReportMyself(entityId, transform.position, rb.linearVelocity);
+	    }
+	
+	    public void ExecuteAIP()
 	    {
 	        if (aipProvider == null) return;
 	        var state = BuildState();
@@ -187,13 +207,14 @@ namespace UnityGERunner.UnityApplication
 	                position = NetVector.From(rb.position),
 	                rotation = NetQuaternion.From(rb.rotation),
 	                velocity = NetVector.From(rb.linearVelocity),
-	                angularVelocity = NetVector.From(rb.angularVelocity)
 	            },
 	            rwrContacts = rwr.GetState(),
 	            radar = radar.GetState(),
 	            weapons = equipManager.GetAttachedWeapons(),
+	            selectedWeapon = equipManager.selectedWeapon,
 	            visualTargets = visualTargetFinder.GetState(),
 	            ir = equipManager.GetIRWeaponState(),
+	            datalink = datalink.GetState(),
 	            flareCount = irCountermeasure.count,
 	            chaffCount = chaffCountermeasure.count,
 	            time = Time.time

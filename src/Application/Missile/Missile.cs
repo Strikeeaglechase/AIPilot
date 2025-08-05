@@ -196,7 +196,7 @@ namespace UnityGERunner.UnityApplication
 	        transform.parent = null;
 	        // iv = rb.velocity;
 	
-	        GameRecorder.InitEntity(entityId, weaponPath, "Missile");
+	        GameRecorder.InitEntity(entityId, weaponPath, "Missile", Team.Unknown);
 	
 	        CoroutineHandler.Start(ThrustRoutine());
 	    }

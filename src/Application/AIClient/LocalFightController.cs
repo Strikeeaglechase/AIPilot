@@ -14,11 +14,16 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public string weaponPath;
 	    public int hpCount;
+	    public int[] allowedHardpoints;
 	
 	    public static Dictionary<string, EquipData> equips = new Dictionary<string, EquipData>
 	    {
-	        { "HPEquips/AFighter/af_amraamRail", new EquipData { weaponPath = "Weapons/Missiles/AIM-120", hpCount = 1 } },
-	        { "HPEquips/AFighter/fa26_iris-t-x1", new EquipData { weaponPath = "Weapons/Missiles/AIRS-T", hpCount = 1 } }
+	        { "HPEquips/AFighter/af_amraam", new EquipData { weaponPath = "Weapons/Missiles/AIM-120", hpCount = 1, allowedHardpoints = new int[] { 4, 5, 6, 7 } } },
+	        { "HPEquips/AFighter/af_amraamRail", new EquipData { weaponPath = "Weapons/Missiles/AIM-120", hpCount = 1, allowedHardpoints = new int[] { 1, 2, 3, 8, 9, 10, 11, 12 } } },
+	        { "HPEquips/AFighter/af_amraamRailx2", new EquipData { weaponPath = "Weapons/Missiles/AIM-120", hpCount = 2, allowedHardpoints = new int[] { 1, 10, 11, 12 } } },
+	        { "HPEquips/AFighter/fa26_iris-t-x1", new EquipData { weaponPath = "Weapons/Missiles/AIRS-T", hpCount = 1, allowedHardpoints = new int[] { 1, 2, 3, 8, 9, 10, 11, 12 } } },
+	        { "HPEquips/AFighter/fa26_iris-t-x2", new EquipData { weaponPath = "Weapons/Missiles/AIRS-T", hpCount = 2, allowedHardpoints = new int[] { 1, 10 } } },
+	        { "HPEquips/AFighter/fa26_iris-t-x3", new EquipData { weaponPath = "Weapons/Missiles/AIRS-T", hpCount = 3, allowedHardpoints = new int[] { 1, 10 } } },
 	    };
 	}
 	
@@ -42,8 +47,12 @@ namespace UnityGERunner.UnityApplication
 	    public List<AIClient> enemyClients;
 	    private List<AIClient> clients;
 	
+	    public GameObject clientPrefab;
+	
 	    private int nextId = 1;
-	    //private CommandLineArguments cli = null;
+	
+	    public DatalinkController alliedDl;
+	    public DatalinkController enemyDl;
 	
 	
 	    protected override void Awake()
@@ -57,16 +66,23 @@ namespace UnityGERunner.UnityApplication
 	
 	        instance = this;
 	
-	        //cli = new CommandLineArguments();
-	        //spawnDistance = cli.GetArg("--spawn-dist", spawnDistance);
-	        //spawnAltitude = cli.GetArg("--spawn-alt", spawnAltitude);
 	        spawnDistance = Options.instance.spawnDist;
 	        spawnAltitude = Options.instance.spawnAlt;
 	
-	        //teamAAIPilotImplementationPath = cli.GetArg("--allied", teamAAIPilotImplementationPath);
-	        //teamBAIPilotImplementationPath = cli.GetArg("--enemy", teamBAIPilotImplementationPath);
 	        teamAAIPilotImplementationPath = Options.instance.allied;
 	        teamBAIPilotImplementationPath = Options.instance.enemy;
+	
+	        while (alliedClients.Count() < Options.instance.alliedCount)
+	        {
+	            var newGo = Instantiate(clientPrefab);
+	            alliedClients.Add(newGo.GetComponent<AIClient>());
+	        }
+	
+	        while (enemyClients.Count() < Options.instance.enemyCount)
+	        {
+	            var newGo = Instantiate(clientPrefab);
+	            enemyClients.Add(newGo.GetComponent<AIClient>());
+	        }
 	
 	        clients = alliedClients.Concat(enemyClients).ToList();
 	
@@ -79,6 +95,8 @@ namespace UnityGERunner.UnityApplication
 	
 	            var actor = client.GetComponent<Actor>();
 	            actor.team = alliedClients.Contains(client) ? Team.Allied : Team.Enemy;
+	
+	            client.datalink = actor.team == Team.Allied ? alliedDl : enemyDl;
 	        }
 	    }
 	
@@ -92,6 +110,15 @@ namespace UnityGERunner.UnityApplication
 	
 	        var handlers = gameObject.GetComponentsInSceneImplementing<IVehicleReadyNotificationHandler>();
 	        foreach (var handler in handlers) handler.OnVehicleReadyNotification();
+	    }
+	
+	    protected override void FixedUpdate()
+	    {
+	        foreach (var client in clients) client.ReportAllDlInfo();
+	        foreach (var client in clients) client.ExecuteAIP();
+	
+	        alliedDl.Clear();
+	        enemyDl.Clear();
 	    }
 	
 	    private void ConfigureAndStartAIPs()
@@ -112,7 +139,7 @@ namespace UnityGERunner.UnityApplication
 	            //var debugEnabled = cli.HasArg(flag);
 	            var debugEnabled = client.team == Team.Allied ? Options.instance.debugAllied : Options.instance.debugEnemy;
 	            //Logger.Info("[HSGE] " + $"Checking for {flag} to enable debugging: {debugEnabled}");
-	            client.ConfigureAIP(aipImplementationCtors[client.team], spawnDistance, spawnCenterPoint.position, debugEnabled);
+	            client.ConfigureAIP(aipImplementationCtors[client.team], spawnDistance, spawnCenterPoint.position, debugEnabled, Options.instance.alliedCount, Options.instance.enemyCount);
 	        }
 	    }
 	
@@ -133,6 +160,7 @@ namespace UnityGERunner.UnityApplication
 	            if (!typeof(IAIPProvider).IsAssignableFrom(type)) continue;
 	
 	            aipImplementationCtors.Add(team, type);
+	            break;
 	        }
 	    }
 	
@@ -167,11 +195,6 @@ namespace UnityGERunner.UnityApplication
 	        }
 	    }
 	
-	    protected override void FixedUpdate()
-	    {
-	
-	    }
-	
 	    public void RequestWeaponSpawn(EquipManager equipManager, SpawnAIPWeapon spawnRequest)
 	    {
 	        if (!enabled) return;
@@ -183,6 +206,12 @@ namespace UnityGERunner.UnityApplication
 	
 	
 	        var equipData = EquipData.equips[spawnRequest.path];
+	
+	        if (!equipData.allowedHardpoints.Contains(spawnRequest.hpIndex))
+	        {
+	            Logger.Warn("[HSGE] " + $"Not allowed hardpoint. Attempted to spawn {spawnRequest.path} onto {spawnRequest.hpIndex}, however only valid hardpoints are: {string.Join(", ", equipData.allowedHardpoints)}");
+	            return;
+	        }
 	
 	        for (int i = 0; i < equipData.hpCount; i++)
 	        {
