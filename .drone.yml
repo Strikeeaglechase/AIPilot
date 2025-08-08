@@ -1,0 +1,25 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+metadata:
+   namespace: drone
+
+steps:
+   - name: build-docker
+     image: plugins/docker
+     when:
+        branch:
+           - master
+        event:
+           include:
+              - push
+              - tag
+     settings:
+        repo: ghcr.io/strikeeaglechase/aip
+        registry: ghcr.io
+        tags:
+           - latest
+        username: Strikeeaglechase
+        password:
+           from_secret: github-token

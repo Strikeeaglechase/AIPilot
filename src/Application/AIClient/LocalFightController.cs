@@ -238,6 +238,7 @@ namespace UnityGERunner.UnityApplication
 	
 	    private void Win(Team team)
 	    {
+	        Logger.Info("[HSGE] " + $"Winning team: {team}");
 	        GameRecorder.Event(new WinEvent(team));
 	        GameRecorder.EndSimulation();
 	    }

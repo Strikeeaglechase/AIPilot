@@ -4,3 +4,6 @@ obj
 UnityTranspiler
 typeCache.json
 log.txt
+Map
+docker-*
+run.bat
