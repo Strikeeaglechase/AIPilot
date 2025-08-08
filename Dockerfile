@@ -14,7 +14,7 @@ COPY src/ ./src/
 
 RUN export DOTNET_SYSTEM_NET_DISABLEIPV6=1
 
-# RUN echo "MaxProtocol = TLSv1.2" >> /etc/ssl/openssl.cnf
+RUN echo "MaxProtocol = TLSv1.2" >> /etc/ssl/openssl.cnf
 RUN wget https://hs.vtolvr.live/api/v1/public/users/0 -O testHs.json -T 15
 RUN cat testHs.json
 
