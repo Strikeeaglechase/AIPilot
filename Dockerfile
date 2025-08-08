@@ -12,10 +12,10 @@ COPY AIPilot.csproj ./
 
 COPY src/ ./src/
 
+RUN echo "MaxProtocol = TLSv1.2" >> /etc/ssl/openssl.cnf
 RUN wget https://api.nuget.org/v3/index.json -O nuget.json
 RUN cat nuget.json
 
-RUN echo "MaxProtocol = TLSv1.2" >> /etc/ssl/openssl.cnf
 RUN export DOTNET_SYSTEM_NET_DISABLEIPV6=1
 
 RUN dotnet build AIPilot.csproj -c Release -o /app/build
