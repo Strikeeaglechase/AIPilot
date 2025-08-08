@@ -3,7 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /app
 
 RUN apt-get update
-RUN apt-get install unzip
+RUN apt-get install unzip -y
+RUN apt-get install curl -y
 
 COPY entrypoint.sh ./
 
