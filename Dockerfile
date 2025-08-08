@@ -12,6 +12,7 @@ COPY AIPilot.csproj ./
 
 COPY src/ ./src/
 
+RUN export DOTNET_SYSTEM_NET_DISABLEIPV6=1
 RUN dotnet build --verbosity diagnostic AIPilot.csproj -c Release -o /app/build
 
 CMD ["sh", "/app/entrypoint.sh"]
