@@ -12,6 +12,6 @@ COPY AIPilot.csproj ./
 
 COPY src/ ./src/
 
-RUN dotnet build AIPilot.csproj -c Release -o /app/build
+RUN dotnet build --verbosity diagnostic AIPilot.csproj -c Release -o /app/build
 
 CMD ["sh", "/app/entrypoint.sh"]
