@@ -18,7 +18,7 @@ steps:
      settings:
         repo: ghcr.io/strikeeaglechase/aip
         registry: ghcr.io
-        custom_dns: [8.8.8.8]
+        custom_dns: 8.8.8.8
         tags:
            - latest
         username: Strikeeaglechase
