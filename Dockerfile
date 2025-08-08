@@ -12,7 +12,10 @@ COPY AIPilot.csproj ./
 
 COPY src/ ./src/
 
+RUN wget https://api.nuget.org/v3/index.json -O nuget.json
+RUN cat nuget.json
+
 RUN export DOTNET_SYSTEM_NET_DISABLEIPV6=1
-RUN dotnet build --verbosity diagnostic AIPilot.csproj -c Release -o /app/build
+RUN dotnet build AIPilot.csproj -c Release -o /app/build
 
 CMD ["sh", "/app/entrypoint.sh"]
