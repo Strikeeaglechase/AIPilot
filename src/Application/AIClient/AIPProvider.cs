@@ -52,12 +52,14 @@ namespace UnityGERunner.UnityApplication
 	    public VisuallySpottedTarget[] visualTargets;
 	    public IRWeaponState ir;
 	    public DatalinkState datalink;
+	    public KillFeedEntry[] killFeed;
 	
 	    public string[] weapons;
 	    public int selectedWeapon;
 	
 	    public int flareCount;
 	    public int chaffCount;
+	    public int gunAmmo;
 	
 	    public float fuel;
 	    public float time;
@@ -110,5 +112,6 @@ namespace UnityGERunner.UnityApplication
 	    public int alliedSpawns;
 	    public int enemySpawns;
 	    public Dictionary<string, int> weaponRestrictions;
+	    public string[] args;
 	}
 }

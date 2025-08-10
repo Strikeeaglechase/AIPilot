@@ -70,6 +70,7 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public NetVector position;
 	    public NetVector velocity;
+	    public NetQuaternion rotation;
 	    public Team team;
 	    public int id;
 	
@@ -82,8 +83,9 @@ namespace UnityGERunner.UnityApplication
 	
 	        return new StateTargetData
 	        {
-	            position = NetVector.From(td.position),
-	            velocity = NetVector.From(td.velocity),
+	            position = td.position,
+	            velocity = td.velocity,
+	            rotation = td.actor.transform.rotation,
 	            id = td.actor.entityId,
 	            team = td.actor.team
 	        };

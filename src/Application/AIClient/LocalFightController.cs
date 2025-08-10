@@ -27,6 +27,12 @@ namespace UnityGERunner.UnityApplication
 	    };
 	}
 	
+	public struct KillFeedEntry
+	{
+	    public int entityId;
+	    public float time;
+	}
+	
 	public class LocalFightController : MonoBehaviour
 	{
 	    public Transform spawnCenterPoint;
@@ -54,6 +60,7 @@ namespace UnityGERunner.UnityApplication
 	    public DatalinkController alliedDl;
 	    public DatalinkController enemyDl;
 	
+	    public List<KillFeedEntry> killFeed = new List<KillFeedEntry>();
 	
 	    protected override void Awake()
 	    {
@@ -66,19 +73,19 @@ namespace UnityGERunner.UnityApplication
 	
 	        instance = this;
 	
-	        spawnDistance = Options.instance.spawnDist;
-	        spawnAltitude = Options.instance.spawnAlt;
+	        spawnDistance = Options.SpawnDist;
+	        spawnAltitude = Options.SpawnAlt;
 	
-	        teamAAIPilotImplementationPath = Options.instance.allied;
-	        teamBAIPilotImplementationPath = Options.instance.enemy;
+	        teamAAIPilotImplementationPath = Options.Allied;
+	        teamBAIPilotImplementationPath = Options.Enemy;
 	
-	        while (alliedClients.Count() < Options.instance.alliedCount)
+	        while (alliedClients.Count() < Options.AlliedCount)
 	        {
 	            var newGo = Instantiate(clientPrefab);
 	            alliedClients.Add(newGo.GetComponent<AIClient>());
 	        }
 	
-	        while (enemyClients.Count() < Options.instance.enemyCount)
+	        while (enemyClients.Count() < Options.EnemyCount)
 	        {
 	            var newGo = Instantiate(clientPrefab);
 	            enemyClients.Add(newGo.GetComponent<AIClient>());
@@ -114,8 +121,10 @@ namespace UnityGERunner.UnityApplication
 	
 	    protected override void FixedUpdate()
 	    {
+	        killFeed.RemoveAll(kfe => Time.time - kfe.time > 0.5f);
+	
 	        foreach (var client in clients) client.ReportAllDlInfo();
-	        foreach (var client in clients) client.ExecuteAIP();
+	        foreach (var client in clients) client.ExecuteAIP(killFeed);
 	
 	        alliedDl.Clear();
 	        enemyDl.Clear();
@@ -137,9 +146,9 @@ namespace UnityGERunner.UnityApplication
 	
 	            //var flag = "--debug-" + client.team.ToString();
 	            //var debugEnabled = cli.HasArg(flag);
-	            var debugEnabled = client.team == Team.Allied ? Options.instance.debugAllied : Options.instance.debugEnemy;
+	            var debugEnabled = client.team == Team.Allied ? Options.DebugAllied : Options.DebugEnemy;
 	            //Logger.Info("[HSGE] " + $"Checking for {flag} to enable debugging: {debugEnabled}");
-	            client.ConfigureAIP(aipImplementationCtors[client.team], spawnDistance, spawnCenterPoint.position, debugEnabled, Options.instance.alliedCount, Options.instance.enemyCount);
+	            client.ConfigureAIP(aipImplementationCtors[client.team], spawnDistance, spawnCenterPoint.position, debugEnabled, Options.AlliedCount, Options.EnemyCount);
 	        }
 	    }
 	
@@ -198,6 +207,13 @@ namespace UnityGERunner.UnityApplication
 	    public void RequestWeaponSpawn(EquipManager equipManager, SpawnAIPWeapon spawnRequest)
 	    {
 	        if (!enabled) return;
+	
+	        if (spawnRequest.path == "HPEquips/AFighter/fa26_gun")
+	        {
+	            equipManager.hasGun = true;
+	            return;
+	        }
+	
 	        if (!EquipData.equips.ContainsKey(spawnRequest.path))
 	        {
 	            Logger.Warn("[HSGE] " + $"Attempted to spawn {spawnRequest.path} on hp {spawnRequest.hpIndex} however no equip data for that hardpoint");
@@ -228,6 +244,10 @@ namespace UnityGERunner.UnityApplication
 	    {
 	        Destroy(damagedClient.gameObject);
 	
+	        damagedClient.ExecuteStop();
+	
+	        killFeed.Add(new KillFeedEntry { entityId = damagedClient.entityId, time = Time.time });
+	
 	        var alliedCount = GetAliveCount(alliedClients, damagedClient);
 	        var enemyCount = GetAliveCount(enemyClients, damagedClient);
 	
@@ -238,6 +258,11 @@ namespace UnityGERunner.UnityApplication
 	
 	    private void Win(Team team)
 	    {
+	        foreach (var client in clients)
+	        {
+	            if (client != null) client.ExecuteStop();
+	        }
+	
 	        Logger.Info("[HSGE] " + $"Winning team: {team}");
 	        GameRecorder.Event(new WinEvent(team));
 	        GameRecorder.EndSimulation();

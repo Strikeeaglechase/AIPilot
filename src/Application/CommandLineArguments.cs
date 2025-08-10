@@ -2,8 +2,10 @@ using UnityGERunner;
 using Coroutine;
 ﻿using CommandLine;
 using CommandLine.Text;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +13,14 @@ using System.Threading.Tasks;
 namespace UnityGERunner.UnityApplication
 {
 	
-	public class Options
+	
+	class OptionHelpAttribute : Attribute
+	{
+	    public string helpText;
+	    public OptionHelpAttribute(string helpText) { this.helpText = helpText; }
+	}
+	
+	class Options
 	{
 	    private static Options _instance;
 	
@@ -19,77 +28,158 @@ namespace UnityGERunner.UnityApplication
 	    {
 	        get
 	        {
-	            if (_instance != null) return _instance;
-	            Logger.Info("[HSGE] " + string.Join(", ", Environment.GetCommandLineArgs()));
-	            var res = Parser.Default.ParseArguments<Options>(Environment.GetCommandLineArgs());
-	            var realErrors = res.Errors.Where(e => e.Tag != ErrorType.UnknownOptionError);
-	
-	            if (Environment.GetCommandLineArgs().Contains("--help"))
-	            {
-	                Environment.Exit(0);
-	            }
-	
-	            if (realErrors.Count() == 0)
-	            {
-	                _instance = res.Value == null ? new Options() : res.Value;
-	                return _instance;
-	            }
-	
-	            foreach (var err in realErrors)
-	            {
-	                Logger.Info("[HSGE] " + err.Tag);
-	                Logger.Info("[HSGE] " + err);
-	            }
-	            // Hard exit if we can
-	#if HSGE
-	            Environment.Exit(0);
-	#endif
-	
-	            // Otherwise soft exit, which will likely cause issues
-	            Logger.Error("[HSGE] " + $"CLI Parse error occurred, exiting");
-	            // Application.Quit do not hard exit the application, so instead we return a default to attempt ot avoid a crash
-	            GameEngine.instance.Quit();
-	
-	            _instance = new Options();
+	            if (_instance == null) LoadOptions();
 	            return _instance;
 	        }
 	    }
 	
-	    [Option("allied", HelpText = "Path to an AIPProvider DLL for allied team aircraft", Default = "")]
-	    public string allied { get; set; } = "";
+	    public static void LoadOptions()
+	    {
+	        _instance = new Options();
 	
-	    [Option("enemy", HelpText = "Path to an AIPProvider DLL for enemy team aircraft", Default = "")]
-	    public string enemy { get; set; } = "";
+	        var cli = Environment.GetCommandLineArgs();
+	        if (cli.Length == 1 || cli[1] == "--help")
+	        {
+	            PrintHelp();
+	#if HSGE
+	            Environment.Exit(0);
+	#endif
+	            return;
+	        }
 	
-	    [Option("debug-allied", HelpText = "Enable debugging for the allied team", Default = false)]
-	    public bool debugAllied { get; set; } = false;
+	        var optionsFile = cli[1];
+	        if (!File.Exists(optionsFile))
+	        {
+	            Logger.Error("[HSGE] " + $"Unable to resolve options file: {optionsFile}");
+	#if HSGE
+	            Environment.Exit(0);
+	#endif
+	        }
 	
-	    [Option("debug-enemy", HelpText = "Enable debugging for the enemy team", Default = false)]
-	    public bool debugEnemy { get; set; } = false;
+	        Logger.Info("[HSGE] " + $"Loading options from {optionsFile}");
+	        var config = File.ReadAllText(optionsFile);
+	        var jo = JObject.Parse(config);
 	
-	    [Option("allied-count", HelpText = "Sets number of allied aircraft to spawn", Default = 1)]
-	    public int alliedCount { get; set; } = 1;
+	        var fields = _instance.GetType().GetFields();
+	        foreach (var field in fields)
+	        {
+	            if (jo.ContainsKey(field.Name))
+	            {
+	                Logger.Info("[HSGE] " + $"Option set:     {field.Name} = {jo[field.Name]}");
+	                if (jo[field.Name].Type == JTokenType.Array)
+	                {
+	                    var value = (JArray)jo[field.Name];
+	                    var rawValue = value.Values().Select(v => ((JValue)v).Value).ToArray();
 	
-	    [Option("enemy-count", HelpText = "Sets number of enemy aircraft to spawn", Default = 1)]
-	    public int enemyCount { get; set; } = 1;
+	                    switch (field.FieldType.Name)
+	                    {
+	                        case "String[]":
+	                            var strArr = Array.ConvertAll<object, string>(rawValue, (obj) => obj?.ToString() ?? string.Empty);
+	                            field.SetValue(_instance, strArr);
+	                            break;
+	                        case "UInt64[]":
+	                            var ulongArr = Array.ConvertAll<object, UInt64>(rawValue, (obj) => (UInt64)(long)obj);
+	                            field.SetValue(_instance, ulongArr);
+	                            break;
+	                        default:
+	                            Logger.Error("[HSGE] " + $"Unhandled feild type {field.FieldType.Name} on option {field.Name}");
+	                            return;
+	                    }
+	                }
+	                else
+	                {
+	                    var value = (JValue)jo[field.Name];
+	                    object rawValue = value.Value;
 	
-	    [Option("spawn-dist", HelpText = "Spawn distance between teams in meters", Default = 72000)]
-	    public float spawnDist { get; set; } = 72000;
+	                    if (value.Type == JTokenType.Integer) rawValue = (int)(long)value.Value;
 	
-	    [Option("spawn-alt", HelpText = "Spawn altitude in meters", Default = 6000)]
-	    public float spawnAlt { get; set; } = 6000;
+	                    field.SetValue(_instance, rawValue);
+	                }
+	            }
+	            else
+	            {
+	                Logger.Warn("[HSGE] " + $"Option default: {field.Name} = {field.GetValue(_instance)}");
+	            }
+	        }
+	    }
 	
-	    [Option("max-time", HelpText = "Maximum simulation duration in seconds (sim time, not real time)", Default = 300)]
-	    public float maxTime { get; set; } = 300;
+	    private static void PrintHelp()
+	    {
+	        string helpResult = "AI Pilot\n  A tool to enable the creation, testing, and deployment of AI for VTOL VR\n\n";
+	        helpResult += "Usage: AIPilot.exe [CONFIG_FILE]\nWhere CONFIG_FILE is a filepath to a json document containing any of the following options:\n\n";
 	
-	    [Option("no-map", HelpText = "Disable map loading", Default = false)]
-	    public bool noMap { get; set; } = false;
-	    [Option("map", HelpText = "Path to a directory containing the map to load", Default = "")]
-	    public string map { get; set; } = "";
-	    [Option("weapon-maxes", HelpText = "Sets limits to how many of each weapon type can be spawned. Format: \"WEAPON_NAME:COUNT,WEAPON_NAME:COUNT\"")]
-	    public string weaponMaxes { get; set; } = "";
+	        var fields = _instance.GetType().GetFields();
 	
-	    public Dictionary<string, int> WeaponCountLimits
+	        var reqPad = fields.Select(f => f.Name.Length).Max();
+	        foreach (var field in fields)
+	        {
+	            var attr = (OptionHelpAttribute)Attribute.GetCustomAttribute(field, typeof(OptionHelpAttribute));
+	            var paramHelp = attr != null ? attr.helpText : "";
+	
+	            helpResult += " " + field.Name.PadRight(reqPad + 4) + " " + paramHelp + "\n";
+	        }
+	
+	        Logger.Info("[HSGE] " + helpResult);
+	    }
+	
+	    [OptionHelp("Path to an AIPProvider DLL for allied team aircraft")]
+	    public string allied = "";
+	
+	    [OptionHelp("Path to an AIPProvider DLL for enemy team aircraft")]
+	    public string enemy = "";
+	
+	    [OptionHelp("Enable debugging for the allied team")]
+	    public bool debugAllied = false;
+	
+	    [OptionHelp("Enable debugging for the enemy team")]
+	    public bool debugEnemy = false;
+	
+	    [OptionHelp("Sets number of allied aircraft to spawn")]
+	    public int alliedCount = 1;
+	
+	    [OptionHelp("Sets number of enemy aircraft to spawn")]
+	    public int enemyCount = 1;
+	
+	    [OptionHelp("Spawn distance between teams in meters")]
+	    public float spawnDist = 72000;
+	
+	    [OptionHelp("Spawn altitude in meters")]
+	    public float spawnAlt = 6000;
+	
+	    [OptionHelp("Maximum simulation duration in seconds (sim time, not real time)")]
+	    public float maxTime = 300;
+	
+	    [OptionHelp("Disable map loading")]
+	    public bool noMap = false;
+	
+	    [OptionHelp("Path to a directory containing the map to load")]
+	    public string map = "";
+	
+	    [OptionHelp("Sets limits to how many of each weapon type can be spawned. Format: \"WEAPON_NAME:COUNT,WEAPON_NAME:COUNT\"")]
+	    public string weaponMaxes = "";
+	
+	    [OptionHelp("List of arguments to pass into the SetupInfo call to the Allied AIP")]
+	    public string[] alliedArgs = new string[0];
+	
+	    [OptionHelp("List of arguments to pass into the SetupInfo call to the Enemy AIP")]
+	    public string[] enemyArgs = new string[0];
+	
+	    public static string Allied => instance.allied;
+	    public static string Enemy => instance.enemy;
+	    public static bool DebugAllied => instance.debugAllied;
+	    public static bool DebugEnemy => instance.debugEnemy;
+	    public static int AlliedCount => instance.alliedCount;
+	    public static int EnemyCount => instance.enemyCount;
+	    public static float SpawnDist => instance.spawnDist;
+	    public static float SpawnAlt => instance.spawnAlt;
+	    public static float MaxTime => instance.maxTime;
+	    public static bool NoMap => instance.noMap;
+	    public static string Map => instance.map;
+	    public static string WeaponMaxes => instance.weaponMaxes;
+	    public static string[] AlliedArgs => instance.alliedArgs;
+	    public static string[] EnemyArgs => instance.enemyArgs;
+	
+	    public static Dictionary<string, int> WeaponCountLimits
 	    {
 	        get
 	        {
@@ -107,4 +197,5 @@ namespace UnityGERunner.UnityApplication
 	        }
 	    }
 	}
+	
 }

@@ -15,6 +15,7 @@ namespace UnityGERunner.UnityApplication
 	{
 	    public VisualTargetType type;
 	    public NetVector direction;
+	    public NetQuaternion orientation;
 	    public float closure;
 	    public int id;
 	    public Team team;
@@ -66,7 +67,8 @@ namespace UnityGERunner.UnityApplication
 	        {
 	            id = actor.entityId,
 	            type = actor.isMissile ? VisualTargetType.Missile : VisualTargetType.Aircraft,
-	            direction = NetVector.From(relPos),
+	            direction = relPos,
+	            orientation = actor.transform.rotation,
 	            closure = closureRate,
 	            team = actor.team,
 	        };

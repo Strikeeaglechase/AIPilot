@@ -1,0 +1,5 @@
+{
+	"allied": "/app/clients/allied/AIPProvider.dll",
+	"enemy": "/app/clients/enemy/AIPProvider.dll",
+	"map": "/app/Map/"
+}

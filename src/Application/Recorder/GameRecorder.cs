@@ -271,7 +271,7 @@ namespace Recorder
             logWriteStream = File.Create(logOutputPath);
             stateStream = File.Create(stateOutputPath);
 
-            maxSimTime = Options.instance.maxTime;
+            maxSimTime = Options.MaxTime;
             Logger.Info("[HSGE] " + $"Recording file output: {Path.GetFullPath(outputPath)}");
 
             graphData.Add("time", new List<float>());

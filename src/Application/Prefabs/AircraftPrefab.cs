@@ -30,12 +30,12 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			var gameObject5005441903226408491 = new GameObject("LeftEngine");
 			var transform5005441903226408488 = new Transform();
 			
-			var behaviour5005441903226408494 = new ModuleEngine();
+			var behaviour5005441903226408494 = new MonoBehaviour();
 			var behaviour5005441903226408489 = new HeatEmitter();
 			var gameObject5005441903954840346 = new GameObject("RightEngine");
 			var transform5005441903954840347 = new Transform();
 			
-			var behaviour5005441903954840345 = new ModuleEngine();
+			var behaviour5005441903954840345 = new MonoBehaviour();
 			var behaviour5005441903954840344 = new HeatEmitter();
 			
 			// Component setups// Setup for GameObject 3738062472738147320
@@ -214,19 +214,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			
 			// Setup for MonoBehaviour 5005441903226408494
-			behaviour5005441903226408494.entity = behaviour3738062474209517588;
-			behaviour5005441903226408494.throttle = 1f;
-			behaviour5005441903226408494.abThrustMult = 1.22f;
-			behaviour5005441903226408494.maxThrust = 125f;
-			behaviour5005441903226408494.autoAbThreshold = 0.75f;
-			behaviour5005441903226408494.speedCurve = TurbofanVelocityCurveSO.instance;
-			behaviour5005441903226408494.atmosCurve = TurbofanAtmosCurveSO.instance;
-			behaviour5005441903226408494.thrustHeatMult = 25f;
-			behaviour5005441903226408494.abHeatAdd = 1f;
-			behaviour5005441903226408494.heatEmitter = behaviour5005441903226408489;
-			behaviour5005441903226408494.resultThrust = 0f;
-			behaviour5005441903226408494.enabled = true;
-			
+			// Script with GUID b135e8b0dd26494448eca17fdc4c2196 not found for component 5005441903226408494
 			
 			// Setup for MonoBehaviour 5005441903226408489
 			behaviour5005441903226408489.isMissile = false;
@@ -251,19 +239,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			
 			// Setup for MonoBehaviour 5005441903954840345
-			behaviour5005441903954840345.entity = behaviour3738062474209517588;
-			behaviour5005441903954840345.throttle = 1f;
-			behaviour5005441903954840345.abThrustMult = 1.22f;
-			behaviour5005441903954840345.maxThrust = 125f;
-			behaviour5005441903954840345.autoAbThreshold = 0.75f;
-			behaviour5005441903954840345.speedCurve = TurbofanVelocityCurveSO.instance;
-			behaviour5005441903954840345.atmosCurve = TurbofanAtmosCurveSO.instance;
-			behaviour5005441903954840345.thrustHeatMult = 25f;
-			behaviour5005441903954840345.abHeatAdd = 1f;
-			behaviour5005441903954840345.heatEmitter = behaviour5005441903954840344;
-			behaviour5005441903954840345.resultThrust = 0f;
-			behaviour5005441903954840345.enabled = true;
-			
+			// Script with GUID b135e8b0dd26494448eca17fdc4c2196 not found for component 5005441903954840345
 			
 			// Setup for MonoBehaviour 5005441903954840344
 			behaviour5005441903954840344.isMissile = false;

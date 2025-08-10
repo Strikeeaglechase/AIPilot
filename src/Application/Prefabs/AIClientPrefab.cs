@@ -133,6 +133,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour5527500078195339178.entityId = 0;
 			behaviour5527500078195339178.unitId = 0;
 			behaviour5527500078195339178.actorId = 0;
+			behaviour5527500078195339178.physicalRadius = 12.5f;
 			behaviour5527500078195339178.actor = behaviour7870003077685781942;
 			behaviour5527500078195339178.manager = null;
 			behaviour5527500078195339178.radar = behaviour3424778467738142397;
@@ -228,7 +229,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			rigidBody1302538070612963282.mass = 1f;
 			rigidBody1302538070612963282.drag = 0f;
 			rigidBody1302538070612963282.angularDrag = 0.05f;
-			rigidBody1302538070612963282.centerOfMass = new Vector3(0f, 0.029785156f, -3.4902344f);
+			rigidBody1302538070612963282.centerOfMass = new Vector3(0f, 0.02978526f, -3.4902344f);
 			rigidBody1302538070612963282.inertiaTensor = new Vector3(1f, 1f, 1f);
 			rigidBody1302538070612963282.useGravity = true;
 			rigidBody1302538070612963282.isKinematic = true;
@@ -264,6 +265,11 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour1695996403598227547.equipDrag = behaviour4951117924955119384;
 			behaviour1695996403598227547.selectedWeapon = 0;
 			behaviour1695996403598227547.tryFire = false;
+			behaviour1695996403598227547.hasGun = false;
+			behaviour1695996403598227547.bulletCount = 800;
+			behaviour1695996403598227547.bulletSpeed = 1100f;
+			behaviour1695996403598227547.dispersion = 0.1f;
+			behaviour1695996403598227547.lifetime = 3f;
 			behaviour1695996403598227547.enabled = true;
 			
 			

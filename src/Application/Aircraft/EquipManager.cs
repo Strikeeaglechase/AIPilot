@@ -23,7 +23,9 @@ namespace UnityGERunner.UnityApplication
 	    }
 	}
 	
-	public class EquipManager : MonoBehaviour, IVehicleReadyNotificationHandler, IWeaponRCSProvider
+	
+	
+	public class EquipManager : ActorBehaviour, IVehicleReadyNotificationHandler, IWeaponRCSProvider
 	{
 	    public List<string> equips = new List<string>();
 	    public List<Missile> weapons = new List<Missile>();
@@ -34,6 +36,14 @@ namespace UnityGERunner.UnityApplication
 	    public int selectedWeapon = 0;
 	
 	    public bool tryFire = false;
+	
+	    
+	    public bool hasGun = false;
+	    public int bulletCount = 800;
+	    public float bulletSpeed = 1100;
+	    public float dispersion = 0.1f;
+	    public float lifetime = 3;
+	    private List<Bullet> bullets = new List<Bullet>();
 	
 	    public void OnVehicleReadyNotification()
 	    {
@@ -60,7 +70,7 @@ namespace UnityGERunner.UnityApplication
 	
 	    private bool CheckWeaponMaxesForSpawn(string weaponPath)
 	    {
-	        var weaponMaxes = Options.instance.WeaponCountLimits;
+	        var weaponMaxes = Options.WeaponCountLimits;
 	        if (!weaponMaxes.ContainsKey(weaponPath)) return true;
 	
 	        var currentWeaponCount = weapons.Where(w => w.weaponPath == weaponPath).Count();
@@ -133,8 +143,33 @@ namespace UnityGERunner.UnityApplication
 	        return null;
 	    }
 	
+	    private static Vector3 WeightedDirectionDeviation(Vector3 direction, float maxAngle)
+	    {
+	        float num = UnityGERunner.Random.Range(0f, 1f);
+	        float maxRadiansDelta = maxAngle * (num * num) * ((float)Math.PI / 180f);
+	        return Vector3.RotateTowards(direction, Vector3.ProjectOnPlane(UnityGERunner.Random.onUnitSphere, direction), maxRadiansDelta, 0f).normalized;
+	    }
+	
+	    private void FireBullet()
+	    {
+	        if (!hasGun) return;
+	        if (bulletCount <= 0) return;
+	        bulletCount--;
+	
+	        var fireDirection = WeightedDirectionDeviation(transform.forward, dispersion);
+	        var velocity = fireDirection * bulletSpeed + actor.velocity;
+	
+	        bullets.Add(new Bullet(transform.position, velocity));
+	    }
+	
 	    public void FireSelectedMissile()
 	    {
+	        if (selectedWeapon == -1)
+	        {
+	            FireBullet();
+	            return;
+	        }
+	
 	        var missile = GetSelectedWeapon();
 	
 	        if (missile == null)
@@ -183,15 +218,23 @@ namespace UnityGERunner.UnityApplication
 	    protected override void FixedUpdate()
 	    {
 	        //weapons.RemoveAll(weapon => weapon == null || weapon.fired);
-	        if (tryFire && weapons.Count > 0)
-	        {
+	        //if (tryFire && weapons.Count > 0)
+	        //{
 	
-	            FireNextARHMissile();
-	            //tryFire = false;
-	            //var missile = weapons[0].GetComponent<Missile>();
-	            //missile.Fire();
-	            //weapons.RemoveAt(0);
-	        }
+	        //    FireNextARHMissile();
+	        //    //tryFire = false;
+	        //    //var missile = weapons[0].GetComponent<Missile>();
+	        //    //missile.Fire();
+	        //    //weapons.RemoveAt(0);
+	        //}
+	
+	        //FireBullet();
+	
+	        var possibleBulletTargets = gameObject.GetComponentsInSceneImplementing<AIClient>().ToList();
+	        possibleBulletTargets.Remove(actor.aiClient); // Prevent bullet from hitting ourselve
+	
+	        foreach (var b in bullets) b.BUpdate(possibleBulletTargets);
+	        bullets.RemoveAll(b => Time.time - b.firedAt > lifetime);
 	    }
 	
 	    private HeatSeeker GetSelectedWeaponHeatSeeker()
@@ -235,6 +278,7 @@ namespace UnityGERunner.UnityApplication
 	    {
 	        return weapons.Select(m => m.rcs).Sum();
 	    }
+	
 	}
 	
 }

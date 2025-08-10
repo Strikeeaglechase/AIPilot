@@ -24,6 +24,9 @@ A weapon is attached to the aircraft via a hardpoint, in AIPSim hardpoints do no
 | fa26_iris-t-x1  | AIRS-T  | 1, 2, 3, 8, 9, 10, 11, 12 | 1            |
 | fa26_iris-t-x2  | AIRS-T  | 1, 10                     | 2            |
 | fa26_iris-t-x3  | AIRS-T  | 1, 10                     | 3            |
+| fa26_gun        | GUN     | 0                         | 1            |
+
+Gun is special as it will not appear in your weapon list, weapon list is only for missiles. To select gun chose weapon index -1.
 
 ## Radar
 

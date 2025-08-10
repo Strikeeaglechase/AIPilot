@@ -51,16 +51,16 @@ namespace UnityGERunner.UnityApplication
 	
 	    private Map()
 	    {
-	        if (Options.instance.noMap)
+	        if (Options.NoMap)
 	        {
 	            Logger.Info("[HSGE] " + $"No map flag, skipping map load");
 	            return;
 	        }
 	
 	        mapPath = GameEngine.dataPath + "/Resources/Map/";
-	        if (Options.instance.map != string.Empty)
+	        if (Options.Map != string.Empty)
 	        {
-	            mapPath = Options.instance.map;
+	            mapPath = Options.Map;
 	        }
 	        Logger.Info("[HSGE] " + $"Map load path: {Path.GetFullPath(mapPath)}");
 	

@@ -2,6 +2,7 @@ using UnityGERunner;
 using Coroutine;
 using Recorder;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -29,6 +30,8 @@ namespace UnityGERunner.UnityApplication
 	    public int actorId;
 	    public Team team => actor.team;
 	
+	    public float physicalRadius = 15;
+	
 	    
 	    public Actor actor;
 	    public HCManager manager;
@@ -49,6 +52,9 @@ namespace UnityGERunner.UnityApplication
 	    public DatalinkController datalink;
 	
 	    private IAIPProvider aipProvider;
+	    private double totalExecTime = 0;
+	    private int totalExecs = 0;
+	    private bool hasStopped = false;
 	
 	    public void OnVehicleReadyNotification()
 	    {
@@ -72,7 +78,8 @@ namespace UnityGERunner.UnityApplication
 	            mapId = Map.instance.mapId,
 	            alliedSpawns = alliedSpawns,
 	            enemySpawns = enemySpawns,
-	            weaponRestrictions = Options.instance.WeaponCountLimits
+	            weaponRestrictions = Options.WeaponCountLimits,
+	            args = team == Team.Allied ? Options.AlliedArgs : Options.EnemyArgs
 	        };
 	
 	        var startActions = aipProvider.Start(setupInfo);
@@ -91,14 +98,18 @@ namespace UnityGERunner.UnityApplication
 	        datalink.ReportMyself(entityId, transform.position, rb.linearVelocity);
 	    }
 	
-	    public void ExecuteAIP()
+	    public void ExecuteAIP(List<KillFeedEntry> killFeed)
 	    {
 	        if (aipProvider == null) return;
-	        var state = BuildState();
+	        var state = BuildState(killFeed);
 	
 	        if (aipProvider.outputEnabled) GameRecorder.RecordState(state, entityId);
 	
+	        var start = DateTime.Now;
 	        var aipResult = aipProvider.Update(state);
+	
+	        totalExecTime += (DateTime.Now - start).TotalMilliseconds;
+	        totalExecs++;
 	
 	        kp.input = new Vector3(Mathf.Clamp(aipResult.pyr.x, -1f, 1f), Mathf.Clamp(aipResult.pyr.y, -1f, 1f), Mathf.Clamp(aipResult.pyr.z, -1f, 1f));
 	        engine.throttle = aipResult.throttle;
@@ -107,6 +118,24 @@ namespace UnityGERunner.UnityApplication
 	
 	        var reader = new Reader(aipResult.events);
 	        while (!reader.Eof()) HandleAIPAction(reader);
+	    }
+	
+	    public void ExecuteStop()
+	    {
+	        if (hasStopped) return;
+	        hasStopped = true;
+	
+	        if (aipProvider != null) aipProvider.Stop();
+	
+	        if (totalExecs > 0)
+	        {
+	            var msPerTick = totalExecTime / totalExecs;
+	            Logger.Info("[HSGE] " + $"AIP {aipProvider.__aipName} ({entityId}) executed {totalExecs} frames, {msPerTick} ms/frame");
+	            if (msPerTick > Time.fixedDeltaTime)
+	            {
+	                Logger.Warn("[HSGE] " + $" - ms/frame is greater than fixedDeltaTime of {Time.fixedDeltaTime}");
+	            }
+	        }
 	    }
 	
 	    private void HandleAIPAction(Reader reader)
@@ -198,7 +227,7 @@ namespace UnityGERunner.UnityApplication
 	        LocalFightController.instance.HandleDamageRequest(this);
 	    }
 	
-	    public OutboundState BuildState()
+	    public OutboundState BuildState(List<KillFeedEntry> killFeed)
 	    {
 	        var state = new OutboundState
 	        {
@@ -215,13 +244,16 @@ namespace UnityGERunner.UnityApplication
 	            visualTargets = visualTargetFinder.GetState(),
 	            ir = equipManager.GetIRWeaponState(),
 	            datalink = datalink.GetState(),
+	            killFeed = killFeed.ToArray(),
 	            flareCount = irCountermeasure.count,
 	            chaffCount = chaffCountermeasure.count,
+	            gunAmmo = equipManager.hasGun ? equipManager.bulletCount : 0,
 	            time = Time.time
 	        };
 	
 	        return state;
 	    }
+	
 	}
 	
 }

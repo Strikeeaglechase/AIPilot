@@ -22,7 +22,7 @@ namespace UnityGERunner.UnityApplication
 	    private HCPlayerEntity hcEntity = null;
 	    private HCMissile missile = null;
 	    private Missile localMissile = null;
-	    private AIClient aiClient = null;
+	    public AIClient aiClient = null;
 	
 	    public bool isMissile { get { return missile != null || localMissile != null; } }
 	    public bool isMissileFired
@@ -85,7 +85,6 @@ namespace UnityGERunner.UnityApplication
 	        if (localMissile != null && !localMissile.fired) return;
 	
 	        if (aiClient != null) GameRecorder.Record(this, new NetVector(aiClient.kp.input), aiClient.engine.throttle, aiClient.fuelTank.fuelFraction);
-	
 	        else GameRecorder.Record(this);
 	
 	    }
