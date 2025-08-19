@@ -125,8 +125,8 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			var pfInst5005441902897201914 = AircraftPrefab.Create();
 			
 			
-			var gameObject43827864 = new GameObject("env");
-			var transform383589178 = new Transform();
+			var gameObject264978743 = new GameObject("env");
+			var transform189649153 = new Transform();
 			
 			
 			// Component setups// Setup for GameObject 9367691
@@ -191,7 +191,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 262980279
 			// Children: 
-			transform262980279.parent = transform383589178;
+			transform262980279.parent = transform189649153;
 			transform262980279.localPosition = new Vector3(96199f, 0f, 98981f);
 			transform262980279.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform262980279.scale = new Vector3(1f, 1f, 1f);
@@ -225,14 +225,14 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 363287745
 			// Children: 
-			transform363287745.parent = transform383589178;
+			transform363287745.parent = transform189649153;
 			transform363287745.localPosition = new Vector3(0f, 0f, 0f);
 			transform363287745.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform363287745.scale = new Vector3(1f, 1f, 1f);
 			
 			
 			// Setup for PrefabInstance 608333639
-			((Transform)pfInst608333639.componentFileIdMap[7867794619607844773]).parent = transform383589178;
+			((Transform)pfInst608333639.componentFileIdMap[7867794619607844773]).parent = transform189649153;
 			pfInst608333639.name = "TargetClient";
 			((Rigidbody)pfInst608333639.componentFileIdMap[1302538070612963282]).centerOfMass.x = 0.0003258884f; // Inferred float type, no type data found for Rigidbody
 			((Rigidbody)pfInst608333639.componentFileIdMap[1302538070612963282]).centerOfMass.y = 0.029785156f; // Inferred float type, no type data found for Rigidbody
@@ -296,7 +296,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 942087941
 			// Children: 
-			transform942087941.parent = transform383589178;
+			transform942087941.parent = transform189649153;
 			transform942087941.localPosition = new Vector3(1.98f, 7.73f, -3.44f);
 			transform942087941.localRotation = new Quaternion(-0.22590484f, 0.21742448f, -0.23241222f, -0.9206945f);
 			transform942087941.scale = new Vector3(1f, 1f, 1f);
@@ -378,14 +378,14 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1311617377
 			// Children: 
-			transform1311617377.parent = transform383589178;
+			transform1311617377.parent = transform189649153;
 			transform1311617377.localPosition = new Vector3(0f, 0f, 0f);
 			transform1311617377.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform1311617377.scale = new Vector3(1f, 1f, 1f);
 			
 			
 			// Setup for PrefabInstance 1339571764
-			((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).parent = transform383589178;
+			((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).parent = transform189649153;
 			pfInst1339571764.name = "AIClient";
 			((Rigidbody)pfInst1339571764.componentFileIdMap[1302538070612963282]).centerOfMass.x = 0f; // Inferred float type, no type data found for Rigidbody
 			((Rigidbody)pfInst1339571764.componentFileIdMap[1302538070612963282]).centerOfMass.y = 0.02978526f; // Inferred float type, no type data found for Rigidbody
@@ -399,6 +399,14 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			((Radar)pfInst1339571764.componentFileIdMap[3424778467738142397]).currentAzimuthAdjust = 90f; // float type
 			((Radar)pfInst1339571764.componentFileIdMap[3424778467738142397]).currentElevationAdjust = 0f; // float type
 			((KinematicPlane)pfInst1339571764.componentFileIdMap[4892452918045270120]).paused = false; // bool type
+			
+			
+			
+			
+			
+			
+			
+			
 			((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition = new Vector3(27159.5f, ((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.y, ((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.z);
 			((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition = new Vector3(((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.x, 6000.28f, ((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.z);
 			((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition = new Vector3(((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.x, ((Transform)pfInst1339571764.componentFileIdMap[7867794619607844773]).localPosition.y, 21709.53f);
@@ -435,7 +443,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1424771540
 			// Children: 
-			transform1424771540.parent = transform383589178;
+			transform1424771540.parent = transform189649153;
 			transform1424771540.localPosition = new Vector3(155033.7f, 396.86328f, 151931.7f);
 			transform1424771540.localRotation = new Quaternion(0f, 0.48879096f, 0f, 0.87240094f);
 			transform1424771540.scale = new Vector3(1f, 1f, 1f);
@@ -477,7 +485,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1447504076
 			// Children: 265828804, 1363819662, 1717733298
-			transform1447504076.parent = transform383589178;
+			transform1447504076.parent = transform189649153;
 			transform1447504076.localPosition = new Vector3(23f, 0f, 0f);
 			transform1447504076.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform1447504076.scale = new Vector3(1f, 1f, 1f);
@@ -508,7 +516,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1823003701
 			// Children: 
-			transform1823003701.parent = transform383589178;
+			transform1823003701.parent = transform189649153;
 			transform1823003701.localPosition = new Vector3(34686.383f, 349.17578f, 54781.953f);
 			transform1823003701.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform1823003701.scale = new Vector3(1f, 1f, 1f);
@@ -522,7 +530,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1859288642
 			// Children: 1117093110, 1311220499, 612834649, 11743763, 47798557
-			transform1859288642.parent = transform383589178;
+			transform1859288642.parent = transform189649153;
 			transform1859288642.localPosition = new Vector3(0f, 0f, 0f);
 			transform1859288642.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform1859288642.scale = new Vector3(1f, 1f, 1f);
@@ -542,7 +550,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 1941113519
 			// Children: 
-			transform1941113519.parent = transform383589178;
+			transform1941113519.parent = transform189649153;
 			transform1941113519.localPosition = new Vector3(0f, 0f, 0f);
 			transform1941113519.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform1941113519.scale = new Vector3(1f, 1f, 1f);
@@ -590,7 +598,7 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			behaviour1941113524.spawnCenterPoint = transform262980279;
 			behaviour1941113524.spawnDistance = 72000f;
 			behaviour1941113524.spawnAltitude = 6000f;
-			behaviour1941113524.doSetupSpawns = false;
+			behaviour1941113524.doSetupSpawns = true;
 			behaviour1941113524.weaponStats = WeaponStatsSO.instance;
 			behaviour1941113524.teamAAIPilotImplementationPath = "";
 			behaviour1941113524.teamBAIPilotImplementationPath = "";
@@ -648,14 +656,14 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for Transform 2114172170
 			// Children: 
-			transform2114172170.parent = transform383589178;
+			transform2114172170.parent = transform189649153;
 			transform2114172170.localPosition = new Vector3(0f, 0f, 0f);
 			transform2114172170.localRotation = new Quaternion(0f, 0f, 0f, 1f);
 			transform2114172170.scale = new Vector3(1f, 1f, 1f);
 			
 			
 			// Setup for PrefabInstance 5005441902897201914
-			((Transform)pfInst5005441902897201914.componentFileIdMap[3738062474209517589]).parent = transform383589178;
+			((Transform)pfInst5005441902897201914.componentFileIdMap[3738062474209517589]).parent = transform189649153;
 			((RadarCrossSection)pfInst5005441902897201914.componentFileIdMap[442573906786450286]).size = 10.3865f; // float type
 			((HCPlayerEntity)pfInst5005441902897201914.componentFileIdMap[3738062474209517588]).path = "Vehicles/FA-26B"; // string type
 			((HCPlayerEntity)pfInst5005441902897201914.componentFileIdMap[3738062474209517588]).entityId = 1859; // int type
@@ -672,112 +680,112 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			pfInst5005441902897201914.name = "Aircraft1";
 			((GameObject)pfInst5005441902897201914.gameObjectFileIdMap[3738062474209517590]).activeInHierarchy = false; // Inferred bool type, no type data found for GameObject
 			
-			// Setup for GameObject 43827864
-			gameObject43827864.SetActive(true);
-			gameObject43827864.sourcePrefab = new EnvScenePrefab();
-			gameObject43827864.AddComponents(transform383589178);
+			// Setup for GameObject 264978743
+			gameObject264978743.SetActive(true);
+			gameObject264978743.sourcePrefab = new EnvScenePrefab();
+			gameObject264978743.AddComponents(transform189649153);
 			
 			
-			// Setup for Transform 383589178
+			// Setup for Transform 189649153
 			// Children: 942087941, 5005441902897201914, 1311617377, 1941113519, 1339571764, 608333639, 363287745, 1447504076, 1859288642, 2114172170, 262980279, 1424771540, 1823003701
-			transform383589178.localPosition = new Vector3(0f, 0f, 0f);
-			transform383589178.localRotation = new Quaternion(0f, 0f, 0f, 1f);
-			transform383589178.scale = new Vector3(1f, 1f, 1f);
+			transform189649153.localPosition = new Vector3(0f, 0f, 0f);
+			transform189649153.localRotation = new Quaternion(0f, 0f, 0f, 1f);
+			transform189649153.scale = new Vector3(1f, 1f, 1f);
 			
 			
-			gameObject43827864.gameObjectFileIdMap[9367691] = gameObject9367691;
-			gameObject43827864.componentFileIdMap[9367692] = transform9367692;
-			gameObject43827864.componentFileIdMap[9367693] = behaviour9367693;
-			gameObject43827864.gameObjectFileIdMap[11743762] = gameObject11743762;
-			gameObject43827864.componentFileIdMap[11743763] = transform11743763;
-			gameObject43827864.componentFileIdMap[11743764] = behaviour11743764;
-			gameObject43827864.gameObjectFileIdMap[47798556] = gameObject47798556;
-			gameObject43827864.componentFileIdMap[47798557] = transform47798557;
-			gameObject43827864.componentFileIdMap[47798558] = behaviour47798558;
-			gameObject43827864.componentFileIdMap[47798560] = behaviour47798560;
-			gameObject43827864.gameObjectFileIdMap[262980278] = gameObject262980278;
-			gameObject43827864.componentFileIdMap[262980279] = transform262980279;
-			gameObject43827864.gameObjectFileIdMap[265828803] = gameObject265828803;
-			gameObject43827864.componentFileIdMap[265828804] = transform265828804;
-			gameObject43827864.gameObjectFileIdMap[363287742] = gameObject363287742;
-			gameObject43827864.componentFileIdMap[363287743] = behaviour363287743;
-			gameObject43827864.componentFileIdMap[363287744] = behaviour363287744;
-			gameObject43827864.componentFileIdMap[363287745] = transform363287745;
-			gameObject43827864.gameObjectFileIdMap[608333639] = pfInst608333639;
-			gameObject43827864.gameObjectFileIdMap[612834648] = gameObject612834648;
-			gameObject43827864.componentFileIdMap[612834649] = transform612834649;
-			gameObject43827864.componentFileIdMap[612834651] = behaviour612834651;
-			gameObject43827864.componentFileIdMap[613013775] = ((AIClient)pfInst608333639.componentFileIdMap[5527500078195339178]);
-			gameObject43827864.componentFileIdMap[755765158] = ((Radar)pfInst1339571764.componentFileIdMap[3424778467738142397]);
-			gameObject43827864.gameObjectFileIdMap[796391537] = gameObject796391537;
-			gameObject43827864.componentFileIdMap[796391538] = transform796391538;
-			gameObject43827864.componentFileIdMap[796391539] = behaviour796391539;
-			gameObject43827864.gameObjectFileIdMap[942087939] = gameObject942087939;
-			gameObject43827864.componentFileIdMap[942087941] = transform942087941;
-			gameObject43827864.gameObjectFileIdMap[1045590941] = gameObject1045590941;
-			gameObject43827864.componentFileIdMap[1045590942] = transform1045590942;
-			gameObject43827864.componentFileIdMap[1045590943] = behaviour1045590943;
-			gameObject43827864.gameObjectFileIdMap[1117093109] = gameObject1117093109;
-			gameObject43827864.componentFileIdMap[1117093110] = transform1117093110;
-			gameObject43827864.componentFileIdMap[1117093111] = behaviour1117093111;
-			gameObject43827864.gameObjectFileIdMap[1261272100] = gameObject1261272100;
-			gameObject43827864.componentFileIdMap[1261272101] = transform1261272101;
-			gameObject43827864.gameObjectFileIdMap[1311220498] = gameObject1311220498;
-			gameObject43827864.componentFileIdMap[1311220499] = transform1311220499;
-			gameObject43827864.componentFileIdMap[1311220500] = behaviour1311220500;
-			gameObject43827864.gameObjectFileIdMap[1311617375] = gameObject1311617375;
-			gameObject43827864.componentFileIdMap[1311617376] = behaviour1311617376;
-			gameObject43827864.componentFileIdMap[1311617377] = transform1311617377;
-			gameObject43827864.gameObjectFileIdMap[1339571764] = pfInst1339571764;
-			gameObject43827864.componentFileIdMap[1339571765] = ((RWR)pfInst1339571764.componentFileIdMap[3008035590580529071]);
-			gameObject43827864.componentFileIdMap[1339571766] = ((EquipManager)pfInst1339571764.componentFileIdMap[1695996403598227547]);
-			gameObject43827864.componentFileIdMap[1339571767] = ((AIClient)pfInst1339571764.componentFileIdMap[5527500078195339178]);
-			gameObject43827864.componentFileIdMap[1339571776] = ((KinematicPlane)pfInst1339571764.componentFileIdMap[4892452918045270120]);
-			gameObject43827864.gameObjectFileIdMap[1363819661] = gameObject1363819661;
-			gameObject43827864.componentFileIdMap[1363819662] = transform1363819662;
-			gameObject43827864.gameObjectFileIdMap[1424771538] = gameObject1424771538;
-			gameObject43827864.componentFileIdMap[1424771539] = behaviour1424771539;
-			gameObject43827864.componentFileIdMap[1424771540] = transform1424771540;
-			gameObject43827864.gameObjectFileIdMap[1447504070] = gameObject1447504070;
-			gameObject43827864.componentFileIdMap[1447504071] = rigidBody1447504071;
-			gameObject43827864.componentFileIdMap[1447504072] = behaviour1447504072;
-			gameObject43827864.componentFileIdMap[1447504073] = behaviour1447504073;
-			gameObject43827864.componentFileIdMap[1447504074] = behaviour1447504074;
-			gameObject43827864.componentFileIdMap[1447504075] = behaviour1447504075;
-			gameObject43827864.componentFileIdMap[1447504076] = transform1447504076;
-			gameObject43827864.gameObjectFileIdMap[1717733297] = gameObject1717733297;
-			gameObject43827864.componentFileIdMap[1717733298] = transform1717733298;
-			gameObject43827864.gameObjectFileIdMap[1823003699] = gameObject1823003699;
-			gameObject43827864.componentFileIdMap[1823003700] = behaviour1823003700;
-			gameObject43827864.componentFileIdMap[1823003701] = transform1823003701;
-			gameObject43827864.gameObjectFileIdMap[1859288641] = gameObject1859288641;
-			gameObject43827864.componentFileIdMap[1859288642] = transform1859288642;
-			gameObject43827864.componentFileIdMap[1859288644] = behaviour1859288644;
-			gameObject43827864.componentFileIdMap[1859288646] = behaviour1859288646;
-			gameObject43827864.gameObjectFileIdMap[1941113518] = gameObject1941113518;
-			gameObject43827864.componentFileIdMap[1941113519] = transform1941113519;
-			gameObject43827864.componentFileIdMap[1941113520] = behaviour1941113520;
-			gameObject43827864.componentFileIdMap[1941113521] = behaviour1941113521;
-			gameObject43827864.componentFileIdMap[1941113522] = behaviour1941113522;
-			gameObject43827864.componentFileIdMap[1941113523] = behaviour1941113523;
-			gameObject43827864.componentFileIdMap[1941113524] = behaviour1941113524;
-			gameObject43827864.componentFileIdMap[1941113525] = behaviour1941113525;
-			gameObject43827864.componentFileIdMap[1941113526] = behaviour1941113526;
-			gameObject43827864.componentFileIdMap[1941113527] = behaviour1941113527;
-			gameObject43827864.gameObjectFileIdMap[2033369362] = gameObject2033369362;
-			gameObject43827864.componentFileIdMap[2033369363] = transform2033369363;
-			gameObject43827864.componentFileIdMap[2033369364] = behaviour2033369364;
-			gameObject43827864.componentFileIdMap[2033369365] = behaviour2033369365;
-			gameObject43827864.componentFileIdMap[2033369366] = behaviour2033369366;
-			gameObject43827864.gameObjectFileIdMap[2114172169] = gameObject2114172169;
-			gameObject43827864.componentFileIdMap[2114172170] = transform2114172170;
-			gameObject43827864.gameObjectFileIdMap[5005441902897201914] = pfInst5005441902897201914;
-			gameObject43827864.componentFileIdMap[7210895780769036230] = ((Transform)pfInst5005441902897201914.componentFileIdMap[3738062474209517589]);
-			gameObject43827864.gameObjectFileIdMap[9223372036854775807] = gameObject43827864;
-			gameObject43827864.gameObjectFileIdMap[43827864] = gameObject43827864;
-			gameObject43827864.componentFileIdMap[383589178] = transform383589178;
+			gameObject264978743.gameObjectFileIdMap[9367691] = gameObject9367691;
+			gameObject264978743.componentFileIdMap[9367692] = transform9367692;
+			gameObject264978743.componentFileIdMap[9367693] = behaviour9367693;
+			gameObject264978743.gameObjectFileIdMap[11743762] = gameObject11743762;
+			gameObject264978743.componentFileIdMap[11743763] = transform11743763;
+			gameObject264978743.componentFileIdMap[11743764] = behaviour11743764;
+			gameObject264978743.gameObjectFileIdMap[47798556] = gameObject47798556;
+			gameObject264978743.componentFileIdMap[47798557] = transform47798557;
+			gameObject264978743.componentFileIdMap[47798558] = behaviour47798558;
+			gameObject264978743.componentFileIdMap[47798560] = behaviour47798560;
+			gameObject264978743.gameObjectFileIdMap[262980278] = gameObject262980278;
+			gameObject264978743.componentFileIdMap[262980279] = transform262980279;
+			gameObject264978743.gameObjectFileIdMap[265828803] = gameObject265828803;
+			gameObject264978743.componentFileIdMap[265828804] = transform265828804;
+			gameObject264978743.gameObjectFileIdMap[363287742] = gameObject363287742;
+			gameObject264978743.componentFileIdMap[363287743] = behaviour363287743;
+			gameObject264978743.componentFileIdMap[363287744] = behaviour363287744;
+			gameObject264978743.componentFileIdMap[363287745] = transform363287745;
+			gameObject264978743.gameObjectFileIdMap[608333639] = pfInst608333639;
+			gameObject264978743.gameObjectFileIdMap[612834648] = gameObject612834648;
+			gameObject264978743.componentFileIdMap[612834649] = transform612834649;
+			gameObject264978743.componentFileIdMap[612834651] = behaviour612834651;
+			gameObject264978743.componentFileIdMap[613013775] = ((AIClient)pfInst608333639.componentFileIdMap[5527500078195339178]);
+			gameObject264978743.componentFileIdMap[755765158] = ((Radar)pfInst1339571764.componentFileIdMap[3424778467738142397]);
+			gameObject264978743.gameObjectFileIdMap[796391537] = gameObject796391537;
+			gameObject264978743.componentFileIdMap[796391538] = transform796391538;
+			gameObject264978743.componentFileIdMap[796391539] = behaviour796391539;
+			gameObject264978743.gameObjectFileIdMap[942087939] = gameObject942087939;
+			gameObject264978743.componentFileIdMap[942087941] = transform942087941;
+			gameObject264978743.gameObjectFileIdMap[1045590941] = gameObject1045590941;
+			gameObject264978743.componentFileIdMap[1045590942] = transform1045590942;
+			gameObject264978743.componentFileIdMap[1045590943] = behaviour1045590943;
+			gameObject264978743.gameObjectFileIdMap[1117093109] = gameObject1117093109;
+			gameObject264978743.componentFileIdMap[1117093110] = transform1117093110;
+			gameObject264978743.componentFileIdMap[1117093111] = behaviour1117093111;
+			gameObject264978743.gameObjectFileIdMap[1261272100] = gameObject1261272100;
+			gameObject264978743.componentFileIdMap[1261272101] = transform1261272101;
+			gameObject264978743.gameObjectFileIdMap[1311220498] = gameObject1311220498;
+			gameObject264978743.componentFileIdMap[1311220499] = transform1311220499;
+			gameObject264978743.componentFileIdMap[1311220500] = behaviour1311220500;
+			gameObject264978743.gameObjectFileIdMap[1311617375] = gameObject1311617375;
+			gameObject264978743.componentFileIdMap[1311617376] = behaviour1311617376;
+			gameObject264978743.componentFileIdMap[1311617377] = transform1311617377;
+			gameObject264978743.gameObjectFileIdMap[1339571764] = pfInst1339571764;
+			gameObject264978743.componentFileIdMap[1339571765] = ((RWR)pfInst1339571764.componentFileIdMap[3008035590580529071]);
+			gameObject264978743.componentFileIdMap[1339571766] = ((EquipManager)pfInst1339571764.componentFileIdMap[1695996403598227547]);
+			gameObject264978743.componentFileIdMap[1339571767] = ((AIClient)pfInst1339571764.componentFileIdMap[5527500078195339178]);
+			gameObject264978743.componentFileIdMap[1339571776] = ((KinematicPlane)pfInst1339571764.componentFileIdMap[4892452918045270120]);
+			gameObject264978743.gameObjectFileIdMap[1363819661] = gameObject1363819661;
+			gameObject264978743.componentFileIdMap[1363819662] = transform1363819662;
+			gameObject264978743.gameObjectFileIdMap[1424771538] = gameObject1424771538;
+			gameObject264978743.componentFileIdMap[1424771539] = behaviour1424771539;
+			gameObject264978743.componentFileIdMap[1424771540] = transform1424771540;
+			gameObject264978743.gameObjectFileIdMap[1447504070] = gameObject1447504070;
+			gameObject264978743.componentFileIdMap[1447504071] = rigidBody1447504071;
+			gameObject264978743.componentFileIdMap[1447504072] = behaviour1447504072;
+			gameObject264978743.componentFileIdMap[1447504073] = behaviour1447504073;
+			gameObject264978743.componentFileIdMap[1447504074] = behaviour1447504074;
+			gameObject264978743.componentFileIdMap[1447504075] = behaviour1447504075;
+			gameObject264978743.componentFileIdMap[1447504076] = transform1447504076;
+			gameObject264978743.gameObjectFileIdMap[1717733297] = gameObject1717733297;
+			gameObject264978743.componentFileIdMap[1717733298] = transform1717733298;
+			gameObject264978743.gameObjectFileIdMap[1823003699] = gameObject1823003699;
+			gameObject264978743.componentFileIdMap[1823003700] = behaviour1823003700;
+			gameObject264978743.componentFileIdMap[1823003701] = transform1823003701;
+			gameObject264978743.gameObjectFileIdMap[1859288641] = gameObject1859288641;
+			gameObject264978743.componentFileIdMap[1859288642] = transform1859288642;
+			gameObject264978743.componentFileIdMap[1859288644] = behaviour1859288644;
+			gameObject264978743.componentFileIdMap[1859288646] = behaviour1859288646;
+			gameObject264978743.gameObjectFileIdMap[1941113518] = gameObject1941113518;
+			gameObject264978743.componentFileIdMap[1941113519] = transform1941113519;
+			gameObject264978743.componentFileIdMap[1941113520] = behaviour1941113520;
+			gameObject264978743.componentFileIdMap[1941113521] = behaviour1941113521;
+			gameObject264978743.componentFileIdMap[1941113522] = behaviour1941113522;
+			gameObject264978743.componentFileIdMap[1941113523] = behaviour1941113523;
+			gameObject264978743.componentFileIdMap[1941113524] = behaviour1941113524;
+			gameObject264978743.componentFileIdMap[1941113525] = behaviour1941113525;
+			gameObject264978743.componentFileIdMap[1941113526] = behaviour1941113526;
+			gameObject264978743.componentFileIdMap[1941113527] = behaviour1941113527;
+			gameObject264978743.gameObjectFileIdMap[2033369362] = gameObject2033369362;
+			gameObject264978743.componentFileIdMap[2033369363] = transform2033369363;
+			gameObject264978743.componentFileIdMap[2033369364] = behaviour2033369364;
+			gameObject264978743.componentFileIdMap[2033369365] = behaviour2033369365;
+			gameObject264978743.componentFileIdMap[2033369366] = behaviour2033369366;
+			gameObject264978743.gameObjectFileIdMap[2114172169] = gameObject2114172169;
+			gameObject264978743.componentFileIdMap[2114172170] = transform2114172170;
+			gameObject264978743.gameObjectFileIdMap[5005441902897201914] = pfInst5005441902897201914;
+			gameObject264978743.componentFileIdMap[7210895780769036230] = ((Transform)pfInst5005441902897201914.componentFileIdMap[3738062474209517589]);
+			gameObject264978743.gameObjectFileIdMap[9223372036854775807] = gameObject264978743;
+			gameObject264978743.gameObjectFileIdMap[264978743] = gameObject264978743;
+			gameObject264978743.componentFileIdMap[189649153] = transform189649153;
 			
-			return gameObject43827864;
+			return gameObject264978743;
 		}
 
 		public override GameObject CreateInstance() 

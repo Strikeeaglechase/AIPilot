@@ -1,5 +1,6 @@
 using UnityGERunner;
 using Coroutine;
+using Recorder;
 using System.Collections.Generic;
 
 namespace UnityGERunner.UnityApplication
@@ -16,6 +17,8 @@ namespace UnityGERunner.UnityApplication
 	        position = pos;
 	        velocity = vel;
 	        firedAt = Time.time;
+	
+	        GameRecorder.Event(new FireBulletEvent(pos, vel));
 	    }
 	
 	    // NOTE: "Update" dosn't work because the Transpiler thinks its a monobehavior method

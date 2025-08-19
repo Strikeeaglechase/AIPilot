@@ -160,8 +160,9 @@ namespace UnityGERunner.UnityApplication
 	            return;
 	        }
 	
-	        var bytes = File.ReadAllBytes(path);
-	        var assemb = Assembly.Load(bytes);
+	        //var bytes = File.ReadAllBytes(path);
+	        //var assemb = Assembly.Load(bytes);
+	        var assemb = Assembly.LoadFrom(path);
 	        var types = assemb.GetTypes();
 	
 	        foreach (var type in types)

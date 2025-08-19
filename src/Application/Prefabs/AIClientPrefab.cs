@@ -152,12 +152,13 @@ namespace UnityGERunner.UnityApplication.Prefabs
 			
 			// Setup for MonoBehaviour 7870003077685781942
 			behaviour7870003077685781942.team = (Team)2;
+			behaviour7870003077685781942.aiClient = null;
 			behaviour7870003077685781942.enabled = true;
 			
 			
 			// Setup for MonoBehaviour 4892452918045270120
 			behaviour4892452918045270120.maxAoAcurve = new AnimationCurve(new Keyframe(0f, 9.786778f, 0.36750066f, 0.36750066f), new Keyframe(57.579475f, 34.87851f, 0f, 0f), new Keyframe(145.83153f, 29.552364f, -0.14893767f, -0.14893767f), new Keyframe(330f, 16.802605f, -0.0130549325f, -0.0130549325f));
-			behaviour4892452918045270120.maxGCurve = new AnimationCurve(new Keyframe(0f, 0f, 0.0034654606f, 0.0034654606f), new Keyframe(85f, 1.6f, 0.0333786f, 0.0333786f), new Keyframe(150f, 3.5f, 0.038599603f, 0.038599603f), new Keyframe(199.42477f, 6.5642433f, 0.052452087f, 0.052452087f), new Keyframe(304.06235f, 9f, -0.00066784304f, -0.00066784304f));
+			behaviour4892452918045270120.maxGCurve = new AnimationCurve(new Keyframe(0f, 0f, 0.0034654606f, 0.0034654606f), new Keyframe(91.31576f, 2.9108834f, 0.0333786f, 0.0333786f), new Keyframe(155.68416f, 7.249114f, 0.038599603f, 0.038599603f), new Keyframe(219.63521f, 9.159793f, 0.052452087f, 0.052452087f), new Keyframe(341.9569f, 13.61431f, -0.00066784304f, -0.00066784304f));
 			behaviour4892452918045270120.rollRateCurve = new AnimationCurve(new Keyframe(0f, 194.75371f, 0f, 0f), new Keyframe(138.3144f, 226.88397f, 0.76293945f, 0.76293945f), new Keyframe(330f, 338.52728f, 0f, 0f));
 			behaviour4892452918045270120.lerpCurve = new AnimationCurve(new Keyframe(0f, 1.284168f, 0f, 0f), new Keyframe(58.494534f, 1.3646439f, 0.004172325f, 0.004172325f), new Keyframe(102.34461f, 4.0628643f, 0.036363784f, 0.036363784f), new Keyframe(191.09071f, 7.3152823f, 0.03521778f, 0.03521778f), new Keyframe(330f, 9.9484215f, 0f, 0f));
 			behaviour4892452918045270120.engine = behaviour2881661582516595245;

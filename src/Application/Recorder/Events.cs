@@ -21,7 +21,8 @@ namespace Recorder
         Win,
         DebugLine,
         DebugSphere,
-        RemoveDebugShape
+        RemoveDebugShape,
+        FireBullet
     }
 
     public abstract class RecorderEvent
@@ -205,6 +206,26 @@ namespace Recorder
         {
             base.WriteBytes(stream);
             stream.Write(BitConverter.GetBytes(id));
+        }
+    }
+
+    public class FireBulletEvent : RecorderEvent
+    {
+        public NetVector position;
+        public NetVector velocity;
+
+        public FireBulletEvent(NetVector pos, NetVector vel)
+        {
+            type = RecorderEventType.FireBullet;
+            position = pos;
+            velocity = vel;
+        }
+
+        public override void WriteBytes(MemoryStream stream)
+        {
+            base.WriteBytes(stream);
+            position.WriteBytes(stream);
+            velocity.WriteBytes(stream);
         }
     }
 }
